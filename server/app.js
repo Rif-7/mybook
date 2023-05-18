@@ -4,7 +4,9 @@ var path = require("path");
 var cookieParser = require("cookie-parser");
 var logger = require("morgan");
 const session = require("express-session");
+const bodyParser = require("body-parser");
 const passport = require("passport");
+const mongoose = require("mongoose");
 require("./utils/auth");
 require("dotenv").config();
 
@@ -13,6 +15,13 @@ var usersRouter = require("./routes/users");
 
 var app = express();
 
+const mongoDB = `mongodb+srv://${process.env.MONGO_USERNAME}:${process.env.MONGO_PASSWORD}@cluster0.dweb7hl.mongodb.net/?retryWrites=true&w=majority`;
+
+mongoose.connect(mongoDB, { useNewUrlParser: true, useUnifiedTopology: true });
+const db = mongoose.connection;
+db.on("error", console.error.bind(console, "MongoDB connection error: "));
+
+app.use(bodyParser.json());
 app.use(logger("dev"));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
@@ -28,7 +37,6 @@ app.use(
 );
 app.use(passport.initialize());
 app.use(passport.session());
-
 app.use("/", indexRouter);
 app.use("/users", usersRouter);
 
@@ -45,7 +53,7 @@ app.use(function (err, req, res, next) {
 
   // render the error page
   res.status(err.status || 500);
-  res.render("error");
+  res.json(err);
 });
 
 module.exports = app;

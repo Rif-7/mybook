@@ -1,9 +1,19 @@
-var express = require('express');
+var express = require("express");
+const passport = require("passport");
 var router = express.Router();
 
 /* GET home page. */
-router.get('/', function(req, res, next) {
-  res.render('index', { title: 'Express' });
+router.get("/", function (req, res, next) {
+  res.status(200).json({ hello: "There" });
 });
+
+router.get("/auth/fb", passport.authenticate("facebook"));
+router.get(
+  "/auth/fb/cb",
+  passport.authenticate("facebook", {
+    successRedirect: "/profile",
+    failureRedirect: "/login",
+  })
+);
 
 module.exports = router;

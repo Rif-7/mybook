@@ -1,18 +1,19 @@
 const passport = require("passport");
-const FacebookStrategy = require("passport-facebook").Strategy;
-require("dotenv").config({ path: "../.env" });
+const FacebookStrategy = require("passport-facebook");
+const path = require("path");
+require("dotenv").config({ path: path.resolve(__dirname, "../.env") });
 
 passport.use(
-  FacebookStrategy(
+  new FacebookStrategy(
     {
       clientID: process.env.FACEBOOK_APP_ID,
       clientSecret: process.env.FACEBOOK_APP_SECRET,
-      callbackURL: "/auth/facebook/callback",
+      callbackURL: "/auth/fb/cb",
       profileFields: ["id", "displayName", "email"],
     },
     (accessToken, refreshToken, profile, done) => {
       console.log(profile);
-      return done(null, profile);
+      return done(null, { profile });
     }
   )
 );
