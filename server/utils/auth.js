@@ -9,9 +9,10 @@ passport.use(
       clientID: process.env.FACEBOOK_APP_ID,
       clientSecret: process.env.FACEBOOK_APP_SECRET,
       callbackURL: "/auth/fb/cb",
-      profileFields: ["id", "displayName", "email"],
     },
     (accessToken, refreshToken, profile, done) => {
+      console.log("Access Token: " + accessToken);
+      console.log("Profile :\n");
       console.log(profile);
       return done(null, { profile });
     }
