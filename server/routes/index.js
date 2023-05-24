@@ -17,7 +17,7 @@ router.get(
 );
 
 router.get("/profile", (req, res, next) => {
-  return res.json(req.user);
+  return res.json({ hi: "there" });
 });
 
 module.exports = router;
