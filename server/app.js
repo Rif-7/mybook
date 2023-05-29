@@ -3,7 +3,6 @@ var express = require("express");
 var path = require("path");
 var cookieParser = require("cookie-parser");
 var logger = require("morgan");
-const session = require("express-session");
 const bodyParser = require("body-parser");
 const passport = require("passport");
 const mongoose = require("mongoose");
@@ -28,15 +27,7 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, "public")));
 
-app.use(
-  session({
-    secret: process.env.SESSION_SECRET,
-    resave: false,
-    saveUninitialized: false,
-  })
-);
 app.use(passport.initialize());
-app.use(passport.session());
 app.use("/", indexRouter);
 app.use("/users", usersRouter);
 

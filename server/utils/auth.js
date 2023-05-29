@@ -83,3 +83,5 @@ exports.comparePassword = async (password, hashedPassword) => {
   const res = await bcrypt.compare(password, hashedPassword);
   return !!res;
 };
+
+exports.ensureAuth = passport.authenticate("jwt", { session: false });
