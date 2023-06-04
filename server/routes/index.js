@@ -15,8 +15,7 @@ router.get(
   userController.sendJwtToken
 );
 
-router.get("/profile", (req, res, next) => {
-  return res.json({ page: "profile" });
-});
+router.post("sign-up", userController.signUp);
+router.post("login", userController.logIn);
 
 module.exports = router;
