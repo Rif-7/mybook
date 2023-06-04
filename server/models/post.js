@@ -5,8 +5,8 @@ const Schema = mongoose.Schema;
 
 const PostSchema = new Schema({
   userId: { type: Schema.Types.ObjectId, ref: "User" },
-  text: { type: String },
-  picture: { type: String },
+  text: { type: String, required: true },
+  image: { type: String },
   timestamp: { type: Date, default: Date.now, required: true },
   likes: [
     {

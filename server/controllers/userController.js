@@ -15,7 +15,7 @@ exports.sendJwtToken = (req, res, next) => {
   return res.status(200).json({ token });
 };
 
-exports.signUp = [
+exports.signup = [
   body("firstname", "Firstname is required")
     .trim()
     .isLength({ min: 1 })
@@ -65,7 +65,7 @@ exports.signUp = [
   },
 ];
 
-exports.logIn = [
+exports.login = [
   body("email")
     .trim()
     .isEmail()

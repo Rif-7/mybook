@@ -84,4 +84,15 @@ exports.comparePassword = async (password, hashedPassword) => {
   return !!res;
 };
 
-exports.ensureAuth = passport.authenticate("jwt", { session: false });
+exports.ensureAuth = (req, res, next) => {
+  passport.authenticate("jwt", (err, user, info, status) => {
+    if (err) {
+      return next(err);
+    }
+    if (!user) {
+      return res.status(401).json({ error: "User is not authenticated" });
+    }
+    req.user = user;
+    return next();
+  })(req, res, next);
+};

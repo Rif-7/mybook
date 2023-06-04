@@ -2,6 +2,8 @@ const express = require("express");
 const passport = require("passport");
 const router = express.Router();
 const userController = require("../controllers/userController");
+const postController = require("../controllers/postController");
+const { ensureAuth } = require("../utils/auth");
 
 /* GET home page. */
 router.get("/", function (req, res, next) {
@@ -15,7 +17,9 @@ router.get(
   userController.sendJwtToken
 );
 
-router.post("sign-up", userController.signUp);
-router.post("login", userController.logIn);
+router.post("/signup", userController.signup);
+router.post("/login", userController.login);
+
+router.post("/posts", ensureAuth, postController.createPost);
 
 module.exports = router;
