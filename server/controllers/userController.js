@@ -2,6 +2,7 @@ const jwt = require("jsonwebtoken");
 const path = require("path");
 const { body, validationResult } = require("express-validator");
 const User = require("../models/user");
+const Friend = require("../models/friend");
 const { createHash, comparePassword } = require("../utils/auth");
 require("dotenv").config({ path: path.resolve(__dirname, "../.env") });
 
@@ -53,6 +54,11 @@ exports.signup = [
         password: hashedPassword,
       });
       user = await user.save();
+
+      let friendDoc = new Friend({
+        userId: user._id,
+      });
+      await friendDoc.save();
 
       const payload = {
         sub: user.id,
@@ -107,3 +113,33 @@ exports.login = [
     }
   },
 ];
+
+exports.sentFriendRequest = async (req, res, next) => {
+  try {
+    // the reciever's id
+    if (!req.params.userId) {
+      return res.status(400).json({ error: "Invalid freind details" });
+    }
+    if (req.params.userId === req.user.id) {
+      return res.status(400).json({ error: "Can sent friend request to self" });
+    }
+
+    const friendsFriendDoc = await Friend.findOneAndUpdate(
+      { userId: req.params.userId },
+      { $push: { requestRecieved: req.user.id } },
+      { new: true }
+    );
+    if (!friendsFriendDoc) {
+      return res.status(404).json({ error: "Friend not found" });
+    }
+    await Friend.findByIdAndUpdate(req.user.id, {
+      $push: { requestSent: req.params.userId },
+    });
+
+    return res
+      .status(200)
+      .json({ success: "Friend request sent successfully " });
+  } catch (err) {
+    return next(err);
+  }
+};

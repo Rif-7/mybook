@@ -22,4 +22,7 @@ router.post("/login", userController.login);
 
 router.post("/posts", ensureAuth, postController.createPost);
 
+// sent a friend request to the user with userId
+router.post("/users/:userId/friends/sent", userController.sentFriendRequest);
+
 module.exports = router;
