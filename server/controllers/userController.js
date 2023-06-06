@@ -118,7 +118,7 @@ exports.sentFriendRequest = async (req, res, next) => {
   try {
     // the reciever's id
     if (!req.params.userId) {
-      return res.status(400).json({ error: "Invalid freind details" });
+      return res.status(400).json({ error: "Invalid friend details" });
     }
     if (req.params.userId === req.user.id) {
       return res.status(400).json({ error: "Can sent friend request to self" });
@@ -139,6 +139,45 @@ exports.sentFriendRequest = async (req, res, next) => {
     return res
       .status(200)
       .json({ success: "Friend request sent successfully " });
+  } catch (err) {
+    return next(err);
+  }
+};
+
+exports.acceptFriendRequest = async (req, res, next) => {
+  try {
+    if (!req.params.userId) {
+      return res.status(400).json({ error: "Invalid friend details" });
+    }
+
+    const friendDoc = await User.findById(req.params.userId);
+    if (!friendDoc) {
+      return res.status(404).json({ error: "Friend not found" });
+    }
+    const friendsFriendDoc = await friendDoc.friend_details;
+    const hasSentRequest = friendsFriendDoc.requestSent.includes(req.user._id);
+    if (!hasSentRequest) {
+      return res
+        .status(400)
+        .json({ error: "The user has not sent a friend request" });
+    }
+
+    // Update Friends friend document
+    friendsFriendDoc.requestSent.pull(req.user.id);
+    friendsFriendDoc.friends.push(req.user.id);
+    await friendsFriendDoc.save();
+
+    await Friend.findOneAndUpdate(
+      { userId: req.user.id },
+      {
+        $push: { friends: friendDoc.id },
+        $pull: { requestRecieved: friendDoc.id },
+      }
+    );
+
+    return res
+      .status(200)
+      .json({ success: "Friend request accepted successfully" });
   } catch (err) {
     return next(err);
   }
