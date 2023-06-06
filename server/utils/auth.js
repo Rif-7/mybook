@@ -4,6 +4,7 @@ const FacebookStrategy = require("passport-facebook");
 const path = require("path");
 const bcrypt = require("bcryptjs");
 const User = require("../models/user");
+const Friend = require("../models/friend");
 require("dotenv").config({ path: path.resolve(__dirname, "../.env") });
 
 const ExtractJWT = passportJWT.ExtractJwt;
@@ -64,7 +65,13 @@ passport.use(
             profilePicUrl,
             facebookId: id,
           });
-          await user.save();
+          user = await user.save();
+
+          // Creating friend doc to store friend details
+          const friendDoc = new Friend({
+            userId: user.id,
+          });
+          await friendDoc.save();
         }
 
         return done(null, user);
