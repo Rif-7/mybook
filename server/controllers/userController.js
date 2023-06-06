@@ -124,14 +124,24 @@ exports.sentFriendRequest = async (req, res, next) => {
       return res.status(400).json({ error: "Can sent friend request to self" });
     }
 
-    const friendsFriendDoc = await Friend.findOneAndUpdate(
-      { userId: req.params.userId },
-      { $push: { requestRecieved: req.user.id } },
-      { new: true }
-    );
+    const friendsFriendDoc = await Friend.findOne({
+      userId: req.params.userId,
+    });
     if (!friendsFriendDoc) {
       return res.status(404).json({ error: "Friend not found" });
     }
+
+    const hasAlreadySentARequest = friendsFriendDoc.requestSent.includes(
+      req.user.id
+    );
+    if (hasAlreadySentARequest) {
+      return res.status(400).json({ error: "User has already sent a request" });
+    }
+
+    friendsFriendDoc.requestRecieved.push(req.user.id);
+    await friendsFriendDoc.save();
+
+    // Update user's friend document
     await Friend.findByIdAndUpdate(req.user.id, {
       $push: { requestSent: req.params.userId },
     });
@@ -162,11 +172,12 @@ exports.acceptFriendRequest = async (req, res, next) => {
         .json({ error: "The user has not sent a friend request" });
     }
 
-    // Update Friends friend document
+    // Update Friend's friend document
     friendsFriendDoc.requestSent.pull(req.user.id);
     friendsFriendDoc.friends.push(req.user.id);
     await friendsFriendDoc.save();
 
+    // Update user's friend document
     await Friend.findOneAndUpdate(
       { userId: req.user.id },
       {
