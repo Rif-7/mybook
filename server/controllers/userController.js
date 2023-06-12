@@ -133,10 +133,15 @@ exports.sentFriendRequest = async (req, res, next) => {
 
     const hasAlreadySentRequest =
       friendsFriendDoc.requestSent.includes(req.user.id) ||
-      friendsFriendDoc.requestRecieved.includes(req.user.id);
+      friendsFriendDoc.requestRecieved.includes(req.user.id) ||
+      friendsFriendDoc.friends.includes(req.user.id);
 
     if (hasAlreadySentRequest) {
-      return res.status(400).json({ error: "User has already sent a request" });
+      return res
+        .status(400)
+        .json({
+          error: "User has already sent a request or are already friends",
+        });
     }
 
     friendsFriendDoc.requestRecieved.push(req.user.id);
@@ -213,8 +218,10 @@ exports.declineFriendRequest = async (req, res, next) => {
         .json({ error: "The user has not sent a friend request" });
     }
 
+    // update friend's document
     friendsFriendDoc.requestSent.pull(req.user.id);
     await friendsFriendDoc.save();
+    // update user's document
     await Friend.findOneAndUpdate(
       { userId: req.user.id },
       {
@@ -225,7 +232,47 @@ exports.declineFriendRequest = async (req, res, next) => {
     return res
       .status(200)
       .json({ success: "Friend request declined successfully" });
-    return;
+  } catch (err) {
+    return next(err);
+  }
+};
+
+exports.removeFriend = async (req, res, next) => {
+  try {
+    if (!req.params.userId) {
+      return res.status(400).json({ error: "Invalid friend details" });
+    }
+
+    // remove from users friends doc
+    await Friend.findOneAndUpdate(
+      { userId: req.user.id },
+      {
+        $pull: { friends: req.params.userId },
+      }
+    );
+    // remove from friend's friends doc
+    await Friend.findOneAndUpdate(
+      { userId: req.params.userId },
+      {
+        $pull: { friends: req.user.id },
+      }
+    );
+
+    return res.status(200).json({ success: "Friend removed successfully" });
+  } catch (err) {
+    return next(err);
+  }
+};
+
+exports.getUserFriendDetails = async (req, res, next) => {
+  try {
+    const queryField = "firstName lastName profilePicUrl";
+    const friendDetails = await Friend.findOne({ userId: req.user.id })
+      .populate("requestSent", queryField)
+      .populate("requestRecieved", queryField)
+      .populate("friends", queryField);
+
+    return res.status(200).json(friendDetails);
   } catch (err) {
     return next(err);
   }
