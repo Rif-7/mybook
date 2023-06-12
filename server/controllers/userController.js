@@ -131,10 +131,11 @@ exports.sentFriendRequest = async (req, res, next) => {
       return res.status(404).json({ error: "Friend not found" });
     }
 
-    const hasAlreadySentARequest = friendsFriendDoc.requestSent.includes(
-      req.user.id
-    );
-    if (hasAlreadySentARequest) {
+    const hasAlreadySentRequest =
+      friendsFriendDoc.requestSent.includes(req.user.id) ||
+      friendsFriendDoc.requestRecieved.includes(req.user.id);
+
+    if (hasAlreadySentRequest) {
       return res.status(400).json({ error: "User has already sent a request" });
     }
 
@@ -165,7 +166,7 @@ exports.acceptFriendRequest = async (req, res, next) => {
       return res.status(404).json({ error: "Friend not found" });
     }
     const friendsFriendDoc = await friendDoc.friend_details;
-    const hasSentRequest = friendsFriendDoc.requestSent.includes(req.user._id);
+    const hasSentRequest = friendsFriendDoc.requestSent.includes(req.user.id);
     if (!hasSentRequest) {
       return res
         .status(400)
@@ -189,6 +190,42 @@ exports.acceptFriendRequest = async (req, res, next) => {
     return res
       .status(200)
       .json({ success: "Friend request accepted successfully" });
+  } catch (err) {
+    return next(err);
+  }
+};
+
+exports.declineFriendRequest = async (req, res, next) => {
+  try {
+    if (!req.params.userId) {
+      return res.status(400).json({ error: "Invalid friend details" });
+    }
+
+    const friendDoc = await User.findById(req.params.userId);
+    if (!friendDoc) {
+      return res.status(404).json({ error: "Friend not found" });
+    }
+    const friendsFriendDoc = await friendDoc.friend_details;
+    const hasSentRequest = friendsFriendDoc.requestSent.includes(req.user.id);
+    if (!hasSentRequest) {
+      return res
+        .status(400)
+        .json({ error: "The user has not sent a friend request" });
+    }
+
+    friendsFriendDoc.requestSent.pull(req.user.id);
+    await friendsFriendDoc.save();
+    await Friend.findOneAndUpdate(
+      { userId: req.user.id },
+      {
+        $pull: { requestRecieved: friendDoc.id },
+      }
+    );
+
+    return res
+      .status(200)
+      .json({ success: "Friend request declined successfully" });
+    return;
   } catch (err) {
     return next(err);
   }

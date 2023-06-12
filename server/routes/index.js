@@ -23,6 +23,20 @@ router.post("/login", userController.login);
 router.post("/posts", ensureAuth, postController.createPost);
 
 // sent a friend request to the user with userId
-router.post("/users/:userId/friends/sent", userController.sentFriendRequest);
+router.post(
+  "/friends/:userId/sent",
+  ensureAuth,
+  userController.sentFriendRequest
+);
+router.post(
+  "/friends/:userId/accept",
+  ensureAuth,
+  userController.acceptFriendRequest
+);
+router.post(
+  "/friends/:userId/decline",
+  ensureAuth,
+  userController.declineFriendRequest
+);
 
 module.exports = router;
