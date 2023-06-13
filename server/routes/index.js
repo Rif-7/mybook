@@ -20,7 +20,9 @@ router.get(
 router.post("/signup", userController.signup);
 router.post("/login", userController.login);
 
+router.get("/posts", ensureAuth, postController.getPosts);
 router.post("/posts", ensureAuth, postController.createPost);
+router.get("/posts/:userId", ensureAuth, postController.getUsersPosts);
 
 // sent a friend request to the user with userId
 router.post(
@@ -38,5 +40,8 @@ router.post(
   ensureAuth,
   userController.declineFriendRequest
 );
+router.post("/friends/:userId/remove", ensureAuth, userController.removeFriend);
+
+router.get("/friends", ensureAuth, userController.getUserFriendDetails);
 
 module.exports = router;

@@ -2,6 +2,7 @@ const multer = require("multer");
 const upload = multer({ dest: "../uploads" });
 const uploadFile = require("../utils/fileUpload");
 const Post = require("../models/post");
+const User = require("../models/user");
 
 exports.createPost = [
   upload.single("image"),
@@ -25,7 +26,7 @@ exports.createPost = [
         if (!uploadedFile.url) {
           return res
             .status(500)
-            .json({ error: "Error occured while uploading the file" });
+            .json({ error: "Error occured while uploading the image" });
         }
         post.image = uploadedFile.url;
       }
@@ -37,3 +38,33 @@ exports.createPost = [
     }
   },
 ];
+
+exports.getUsersPosts = async (req, res, next) => {
+  try {
+    if (!req.params.userId) {
+      return res.status(400).json({ error: "Invalid user details" });
+    }
+    const user = await User.findById(req.params.id);
+    if (!user) {
+      return res.status(404).json({ error: "User not found" });
+    }
+    const posts = await Post.find({ userId: user.id }).sort({ timestamp: -1 });
+    return res.status(200).json(posts);
+  } catch (err) {
+    return next(err);
+  }
+};
+
+exports.getPosts = async (req, res, next) => {
+  try {
+    let userFriends = await req.user.friend_details;
+    userFriends = userFriends.friends;
+    userFriends.push(req.user.id);
+    const posts = await Post.find({ userId: { $in: userFriends } }).sort({
+      timestamp: -1,
+    });
+    return res.status(200).json(posts);
+  } catch (err) {
+    return next(err);
+  }
+};
