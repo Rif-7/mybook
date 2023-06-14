@@ -275,3 +275,18 @@ exports.getUserFriendDetails = async (req, res, next) => {
     return next(err);
   }
 };
+
+exports.getUserList = async (req, res, next) => {
+  try {
+    const friendDetails = await req.user.friend_details;
+    const excludedUsers = [
+      ...friendDetails.friends,
+      ...friendDetails.requestRecieved,
+      ...friendDetails.requestSent,
+    ];
+    const users = await User.find({ userId: { $nin: excludedUsers } });
+    return res.status(200).json(users);
+  } catch (err) {
+    return next(err);
+  }
+};
