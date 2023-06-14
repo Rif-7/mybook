@@ -24,26 +24,4 @@ router.get("/posts", ensureAuth, postController.getPosts);
 router.post("/posts", ensureAuth, postController.createPost);
 router.post("/posts/:postId/like", ensureAuth, postController.toggleLike);
 
-router.get("/users/:userId/posts", ensureAuth, postController.getUsersPosts);
-
-// sent a friend request to the user with userId
-router.post(
-  "/friends/:userId/sent",
-  ensureAuth,
-  userController.sentFriendRequest
-);
-router.post(
-  "/friends/:userId/accept",
-  ensureAuth,
-  userController.acceptFriendRequest
-);
-router.post(
-  "/friends/:userId/decline",
-  ensureAuth,
-  userController.declineFriendRequest
-);
-router.post("/friends/:userId/remove", ensureAuth, userController.removeFriend);
-
-router.get("/friends", ensureAuth, userController.getUserFriendDetails);
-
 module.exports = router;
