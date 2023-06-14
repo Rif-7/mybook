@@ -22,7 +22,9 @@ router.post("/login", userController.login);
 
 router.get("/posts", ensureAuth, postController.getPosts);
 router.post("/posts", ensureAuth, postController.createPost);
-router.get("/posts/:userId", ensureAuth, postController.getUsersPosts);
+router.post("/posts/:postId/like", ensureAuth, postController.toggleLike);
+
+router.get("/users/:userId/posts", ensureAuth, postController.getUsersPosts);
 
 // sent a friend request to the user with userId
 router.post(

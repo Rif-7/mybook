@@ -137,11 +137,9 @@ exports.sentFriendRequest = async (req, res, next) => {
       friendsFriendDoc.friends.includes(req.user.id);
 
     if (hasAlreadySentRequest) {
-      return res
-        .status(400)
-        .json({
-          error: "User has already sent a request or are already friends",
-        });
+      return res.status(400).json({
+        error: "User has already sent a request or are already friends",
+      });
     }
 
     friendsFriendDoc.requestRecieved.push(req.user.id);

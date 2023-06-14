@@ -68,3 +68,32 @@ exports.getPosts = async (req, res, next) => {
     return next(err);
   }
 };
+
+// TODO: Might have to implement comment models before deletePost
+exports.deletePost = () => {};
+
+exports.toggleLike = async (req, res, next) => {
+  try {
+    if (!req.params.postId) {
+      return res.status(400).json({ error: "Invalid post details" });
+    }
+    const post = await Post.findById(req.params.postId);
+    if (!post) {
+      return res.status(404).json({ error: "Post not found" });
+    }
+    const hasLiked = post.likes.includes(req.user.id);
+
+    let message;
+    if (hasLiked) {
+      post.likes.pull(req.user.id);
+      message = "Post liked successfully";
+    } else {
+      post.liked.push(req.user.id);
+      message = "Post unliked successfully";
+    }
+    await post.save();
+    return res.status(200).json({ success: message });
+  } catch (err) {
+    return next(err);
+  }
+};
