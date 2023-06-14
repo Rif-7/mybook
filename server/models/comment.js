@@ -3,23 +3,17 @@ const { DateTime } = require("luxon");
 
 const Schema = mongoose.Schema;
 
-const PostSchema = new Schema({
+const CommentSchema = new Schema({
+  postId: { type: Schema.Types.ObjectId, ref: "Post", required: true },
   userId: { type: Schema.Types.ObjectId, ref: "User", required: true },
-  text: { type: String, required: true },
-  image: { type: String },
+  text: { type: String, minLength: 1, required: true },
   timestamp: { type: Date, default: Date.now, required: true },
-  likes: [
-    {
-      type: Schema.Types.ObjectId,
-      ref: "User",
-    },
-  ],
 });
 
-PostSchema.virtual("timestamp_formatted").get(function () {
+CommentSchema.virtual("timestamp_formatted").get(function () {
   return DateTime.fromJSDate(this.timestamp).toLocaleString(
     DateTime.DATETIME_MED
   );
 });
 
-exports.default = mongoose.model("Post", PostSchema);
+module.exports = mongoose.model("Comment", CommentSchema);
