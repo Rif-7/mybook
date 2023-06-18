@@ -3,11 +3,12 @@ const passport = require("passport");
 const router = express.Router();
 const userController = require("../controllers/userController");
 const postController = require("../controllers/postController");
+const commentController = require("../controllers/commentController");
 const { ensureAuth } = require("../utils/auth");
 
 /* GET home page. */
 router.get("/", function (req, res, next) {
-  res.status(200).json({ page: "home" });
+  res.redirect("/posts");
 });
 
 router.get("/auth/fb", passport.authenticate("facebook", { session: false }));
@@ -20,8 +21,21 @@ router.get(
 router.post("/signup", userController.signup);
 router.post("/login", userController.login);
 
+// Post Routes
 router.get("/posts", ensureAuth, postController.getPosts);
 router.post("/posts", ensureAuth, postController.createPost);
 router.post("/posts/:postId/like", ensureAuth, postController.toggleLike);
+
+// Comment Routes
+router.post(
+  "/posts/:postId/comments",
+  ensureAuth,
+  commentController.createComment
+);
+router.get(
+  "/posts/:postId/comments",
+  ensureAuth,
+  commentController.getComments
+);
 
 module.exports = router;
