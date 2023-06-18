@@ -3,16 +3,17 @@ const upload = multer({ dest: "../uploads" });
 const uploadFile = require("../utils/fileUpload");
 const Post = require("../models/post");
 const User = require("../models/user");
+const { body, validationResult } = require("express-validator");
 
 exports.createPost = [
   upload.single("image"),
+  body("text", "Post text is required").trim().isLength({ min: 1 }),
   async (req, res, next) => {
     try {
-      if (!req.user) {
-        return res.status(401).json({ error: "User is not authenticated" });
-      }
-      if (!req.body.text || req.body.text.length < 1) {
-        return res.status(400).json({ errors: ["Post text is required"] });
+      let errors = validationResult(req);
+      if (!errors.isEmpty()) {
+        errors = errors.formatWith((error) => error.msg);
+        return res.status(400).json({ error: errors.array() });
       }
 
       let post = new Post({
