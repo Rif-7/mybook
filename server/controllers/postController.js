@@ -7,7 +7,7 @@ const { body, validationResult } = require("express-validator");
 
 exports.createPost = [
   upload.single("image"),
-  body("text", "Post text is required").trim().isLength({ min: 1 }),
+  body("text", "Post text is required").trim().isLength({ min: 1 }).escape(),
   async (req, res, next) => {
     try {
       let errors = validationResult(req);
@@ -43,7 +43,7 @@ exports.createPost = [
 exports.getUsersPosts = async (req, res, next) => {
   try {
     if (!req.params.userId) {
-      return res.status(400).json({ error: "Invalid user details" });
+      return res.status(400).json({ error: "User ID is missing" });
     }
     const user = await User.findById(req.params.id);
     if (!user) {
@@ -76,7 +76,7 @@ exports.deletePost = () => {};
 exports.toggleLike = async (req, res, next) => {
   try {
     if (!req.params.postId) {
-      return res.status(400).json({ error: "Invalid post details" });
+      return res.status(400).json({ error: "Post ID is missing" });
     }
     const post = await Post.findById(req.params.postId);
     if (!post) {

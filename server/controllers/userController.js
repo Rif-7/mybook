@@ -118,7 +118,7 @@ exports.sentFriendRequest = async (req, res, next) => {
   try {
     // the reciever's id
     if (!req.params.userId) {
-      return res.status(400).json({ error: "Invalid friend details" });
+      return res.status(400).json({ error: "Friend ID is missing" });
     }
     if (req.params.userId === req.user.id) {
       return res.status(400).json({ error: "Can sent friend request to self" });
@@ -161,7 +161,7 @@ exports.sentFriendRequest = async (req, res, next) => {
 exports.acceptFriendRequest = async (req, res, next) => {
   try {
     if (!req.params.userId) {
-      return res.status(400).json({ error: "Invalid friend details" });
+      return res.status(400).json({ error: "Friend ID is missing" });
     }
 
     const friendDoc = await User.findById(req.params.userId);
@@ -201,7 +201,7 @@ exports.acceptFriendRequest = async (req, res, next) => {
 exports.declineFriendRequest = async (req, res, next) => {
   try {
     if (!req.params.userId) {
-      return res.status(400).json({ error: "Invalid friend details" });
+      return res.status(400).json({ error: "Friend ID is missing" });
     }
 
     const friendDoc = await User.findById(req.params.userId);
@@ -238,7 +238,7 @@ exports.declineFriendRequest = async (req, res, next) => {
 exports.removeFriend = async (req, res, next) => {
   try {
     if (!req.params.userId) {
-      return res.status(400).json({ error: "Invalid friend details" });
+      return res.status(400).json({ error: "Friend ID is missing" });
     }
 
     // remove from users friends doc
