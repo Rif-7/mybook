@@ -6,18 +6,17 @@ const postController = require("../controllers/postController");
 const commentController = require("../controllers/commentController");
 const { ensureAuth } = require("../utils/auth");
 
-/* GET home page. */
 router.get("/", function (req, res, next) {
   res.redirect("/posts");
 });
 
+// Authentication Routes
 router.get("/auth/fb", passport.authenticate("facebook", { session: false }));
 router.get(
   "/auth/fb/cb",
   passport.authenticate("facebook", { session: false }),
   userController.sendJwtToken
 );
-
 router.post("/signup", userController.signup);
 router.post("/login", userController.login);
 
@@ -36,6 +35,11 @@ router.get(
   "/posts/:postId/comments",
   ensureAuth,
   commentController.getComments
+);
+router.delete(
+  "/posts/:postId/comments/:commentId",
+  ensureAuth,
+  commentController.deleteComment
 );
 
 module.exports = router;

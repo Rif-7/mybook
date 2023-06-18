@@ -49,3 +49,24 @@ exports.getComments = async (req, res, next) => {
     return next(err);
   }
 };
+
+exports.deleteComment = async (req, res, next) => {
+  try {
+    if (!req.params.commentId) {
+      return res.status(400).json({ error: "Comment ID is missing" });
+    }
+    const comment = Comment.findById(req.params.commentId);
+    if (!comment) {
+      return res.status(404).json({ error: "Comment not found" });
+    }
+    if (comment.userId !== req.user.id) {
+      return res
+        .status(403)
+        .json({ error: "You are not authorized to delete this comment" });
+    }
+    await Comment.findByIdAndRemove(req.params.commentId);
+    return res.status(200).json({ success: "Comment deleted successfully" });
+  } catch (err) {
+    return next(err);
+  }
+};
