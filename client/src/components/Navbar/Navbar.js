@@ -11,18 +11,11 @@ import {
   Stack,
   Center,
   Icon,
-  useDisclosure,
-  Drawer,
-  DrawerBody,
-  Input,
-  DrawerHeader,
-  DrawerOverlay,
-  DrawerContent,
-  DrawerCloseButton,
 } from '@chakra-ui/react';
 
 import { AiOutlineUser, AiOutlineLogout } from 'react-icons/ai';
-import { AtSignIcon, AddIcon } from '@chakra-ui/icons';
+import { AtSignIcon } from '@chakra-ui/icons';
+import NewPostDrawer from './NewPostDrawer';
 
 export default function Nav() {
   return (
@@ -76,72 +69,6 @@ export default function Nav() {
           </Flex>
         </Flex>
       </Box>
-    </>
-  );
-}
-
-function NewPostDrawer() {
-  const { isOpen, onOpen, onClose } = useDisclosure();
-
-  const onSubmit = e => {
-    e.preventDefault();
-    console.log('submited');
-  };
-
-  return (
-    <>
-      <Button
-        onClick={onOpen}
-        size={'sm'}
-        rightIcon={<AddIcon />}
-        colorScheme="green"
-        variant="solid"
-      >
-        New Post
-      </Button>
-      <Drawer placement="left" size={'md'} isOpen={isOpen} onClose={onClose}>
-        <DrawerOverlay />
-        <DrawerContent>
-          <DrawerCloseButton />
-          <DrawerHeader>Create A New Post</DrawerHeader>
-
-          <DrawerBody overflowY={'auto'}>
-            <Box as={'form'} mt={10} onSubmit={onSubmit}>
-              <Stack spacing={4}>
-                <Input
-                  placeholder="Caption"
-                  bg={'gray.100'}
-                  border={0}
-                  color={'gray.500'}
-                  _placeholder={{
-                    color: 'gray.500',
-                  }}
-                />
-                <Input
-                  type="file"
-                  fontFamily={'heading'}
-                  bg={'gray.200'}
-                  color={'gray.800'}
-                />
-              </Stack>
-              <Button
-                fontFamily={'heading'}
-                type="submit"
-                mt={8}
-                w={'full'}
-                bgGradient="linear(to-r, red.400,pink.400)"
-                color={'white'}
-                _hover={{
-                  bgGradient: 'linear(to-r, red.400,pink.400)',
-                  boxShadow: 'xl',
-                }}
-              >
-                Submit
-              </Button>
-            </Box>
-          </DrawerBody>
-        </DrawerContent>
-      </Drawer>
     </>
   );
 }
