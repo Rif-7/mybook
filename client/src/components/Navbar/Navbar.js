@@ -12,12 +12,13 @@ import {
   Center,
   Icon,
 } from '@chakra-ui/react';
+import { Outlet } from 'react-router-dom';
 
 import { AiOutlineUser, AiOutlineLogout } from 'react-icons/ai';
 import { AtSignIcon } from '@chakra-ui/icons';
 import NewPostDrawer from './NewPostDrawer';
 
-export default function Nav() {
+function Navbar() {
   return (
     <>
       <Box bg={'gray.100'} px={4}>
@@ -69,6 +70,15 @@ export default function Nav() {
           </Flex>
         </Flex>
       </Box>
+    </>
+  );
+}
+
+export default function NavOutlet() {
+  return (
+    <>
+      <Navbar />
+      <Outlet />
     </>
   );
 }
