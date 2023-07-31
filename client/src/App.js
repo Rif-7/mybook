@@ -7,6 +7,7 @@ import SignupCard from './components/Authentication/SignUp';
 import LoginCard from './components/Authentication/Login';
 import HomePage from './components/Home/HomePage';
 import UserProfile from './components/Profile/UserProfile';
+import NotFound from './components/Error/NotFound';
 
 function App() {
   const [user, setUser] = useState({});
@@ -33,7 +34,7 @@ function App() {
             </>
           )}
           <Route path="/" element={<Navigate replace to="/facebook-clone" />} />
-          <Route path="*" element={<div>Error 404: Page not found</div>} />
+          <Route path="*" element={<NotFound />} />
         </Routes>
       </BrowserRouter>
     </ChakraProvider>
