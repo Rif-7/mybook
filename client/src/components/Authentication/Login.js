@@ -17,6 +17,7 @@ import {
 import { useState } from 'react';
 import { ViewIcon, ViewOffIcon } from '@chakra-ui/icons';
 import { Link } from 'react-router-dom';
+import FacebookButton from './FacebookLogin';
 
 export default function LoginCard() {
   const [showPassword, setShowPassword] = useState(false);
@@ -82,6 +83,7 @@ export default function LoginCard() {
                 </Link>
               </Text>
             </Stack>
+            <FacebookButton />
           </Stack>
         </Box>
       </Stack>
