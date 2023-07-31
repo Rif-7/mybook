@@ -78,7 +78,7 @@ export default function LoginCard() {
               <Text align={'center'}>
                 Not a user?{' '}
                 <Link color={'blue.400'} to="/facebook-clone/sign-up">
-                  Signup
+                  Sign up
                 </Link>
               </Text>
             </Stack>

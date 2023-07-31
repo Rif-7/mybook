@@ -21,7 +21,7 @@ import NewPostDrawer from './NewPostDrawer';
 function Navbar() {
   return (
     <>
-      <Box bg={'gray.100'} px={4}>
+      <Box bg={'#F7FAFC'} px={4}>
         <Flex h={16} alignItems={'center'} justifyContent={'space-between'}>
           <Box>Logo</Box>
 
