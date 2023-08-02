@@ -114,6 +114,18 @@ exports.login = [
   },
 ];
 
+exports.getUserDetails = async (req, res, next) => {
+  try {
+    return res.status(200).json({
+      firstName: req.user.firstName,
+      lastName: req.user.lastName,
+      profilePicUrl: req.user.profilePicUrl,
+    });
+  } catch (err) {
+    return next(err);
+  }
+};
+
 exports.sentFriendRequest = async (req, res, next) => {
   try {
     // the reciever's id

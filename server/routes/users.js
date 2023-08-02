@@ -6,7 +6,7 @@ const { ensureAuth } = require("../utils/auth");
 
 /* GET users listing. */
 router.get("/", ensureAuth, userController.getUserList);
-
+router.get("/user", ensureAuth, userController.getUserDetails);
 router.get("/:userId/posts", ensureAuth, postController.getUsersPosts);
 
 module.exports = router;
