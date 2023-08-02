@@ -3,6 +3,7 @@ const apiUrl = 'http://localhost:4000';
 const setUserDetails = async setUser => {
   try {
     const token = localStorage.getItem('token');
+    if (!token) return;
     let response = await fetch(apiUrl + '/users/user', {
       method: 'GET',
       mode: 'cors',
