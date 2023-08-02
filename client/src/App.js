@@ -29,14 +29,24 @@ function App() {
                 <Route path="profile" element={<UserProfile user={user} />} />
                 <Route
                   path="/facebook-clone/login"
-                  element={<Navigate replace to="/facebook-clone/" />}
+                  element={<Navigate replace to="/facebook-clone" />}
+                />
+                <Route
+                  path="/facebook-clone/sign-up"
+                  element={<Navigate replace to="/facebook-clone" />}
                 />
               </Route>
             </>
           ) : (
             <>
-              <Route path="/facebook-clone/login" element={<LoginCard />} />
-              <Route path="/facebook-clone/sign-up" element={<SignupCard />} />
+              <Route
+                path="/facebook-clone/login"
+                element={<LoginCard setUser={setUser} />}
+              />
+              <Route
+                path="/facebook-clone/sign-up"
+                element={<SignupCard setUser={setUser} />}
+              />
               <Route
                 path="/facebook-clone"
                 element={<Navigate replace to="/facebook-clone/login" />}

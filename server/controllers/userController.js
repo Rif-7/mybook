@@ -49,7 +49,7 @@ exports.signup = [
       const hashedPassword = await createHash(req.body.password);
       let user = new User({
         firstName: req.body.firstname,
-        lastName: req.body.lastName,
+        lastName: req.body.lastname,
         email: req.body.email,
         password: hashedPassword,
       });

@@ -21,4 +21,30 @@ const setUserDetails = async setUser => {
   }
 };
 
-export { apiUrl, setUserDetails };
+// Errors are to be returned as an array
+const signUp = async (firstname, lastname, email, password) => {
+  try {
+    let response = await fetch(apiUrl + '/signup', {
+      method: 'POST',
+      mode: 'cors',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        firstname,
+        lastname,
+        email,
+        password,
+      }),
+    });
+
+    response = await response.json();
+    console.log(response);
+    return response;
+  } catch (err) {
+    console.log(err);
+    return { error: ['Unexpected error occured'] };
+  }
+};
+
+export { apiUrl, setUserDetails, signUp };

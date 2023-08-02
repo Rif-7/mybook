@@ -14,14 +14,43 @@ import {
   Heading,
   Text,
   useColorModeValue,
+  Skeleton,
+  Alert,
+  AlertIcon,
 } from '@chakra-ui/react';
 import { useState } from 'react';
 import { ViewIcon, ViewOffIcon } from '@chakra-ui/icons';
 import { Link } from 'react-router-dom';
-import FacebookButton from './FacebookLogin';
+import FacebookButton from './FacebookLoginButton';
+import { setUserDetails, signUp } from '../../api';
 
-export default function SignupCard() {
+export default function SignupCard(props) {
+  const { setUser } = props;
+
+  const [firstname, setFirstname] = useState('');
+  const [lastname, setLastname] = useState('');
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
+  const [errors, setErrors] = useState([]);
+  const [isLoading, setIsLoading] = useState(false);
+
+  const updateFirstname = e => setFirstname(e.target.value);
+  const updateLastname = e => setLastname(e.target.value);
+  const updateEmail = e => setEmail(e.target.value);
+  const updatePassword = e => setPassword(e.target.value);
+
+  const onSubmit = async e => {
+    e.preventDefault();
+    setIsLoading(true);
+    const res = await signUp(firstname, lastname, email, password);
+    if (res.error) {
+      setIsLoading(false);
+      return setErrors(res.error);
+    }
+    localStorage.setItem('token', res.token);
+    await setUserDetails(setUser);
+  };
 
   return (
     <Flex
@@ -43,28 +72,47 @@ export default function SignupCard() {
           p={8}
         >
           <Stack spacing={4}>
+            {errors.length > 0 ? (
+              <Alert status="error">
+                <AlertIcon />
+                {errors[0]}
+              </Alert>
+            ) : null}
+
             <HStack>
               <Box>
                 <FormControl id="firstName" isRequired>
                   <FormLabel>First Name</FormLabel>
-                  <Input type="text" />
+                  <Input
+                    type="text"
+                    value={firstname}
+                    onChange={updateFirstname}
+                  />
                 </FormControl>
               </Box>
               <Box>
-                <FormControl id="lastName">
+                <FormControl id="lastName" isRequired>
                   <FormLabel>Last Name</FormLabel>
-                  <Input type="text" />
+                  <Input
+                    type="text"
+                    value={lastname}
+                    onChange={updateLastname}
+                  />
                 </FormControl>
               </Box>
             </HStack>
             <FormControl id="email" isRequired>
               <FormLabel>Email address</FormLabel>
-              <Input type="email" />
+              <Input type="email" value={email} onChange={updateEmail} />
             </FormControl>
             <FormControl id="password" isRequired>
               <FormLabel>Password</FormLabel>
               <InputGroup>
-                <Input type={showPassword ? 'text' : 'password'} />
+                <Input
+                  type={showPassword ? 'text' : 'password'}
+                  value={password}
+                  onChange={updatePassword}
+                />
                 <InputRightElement h={'full'}>
                   <Button
                     variant={'ghost'}
@@ -77,19 +125,23 @@ export default function SignupCard() {
                 </InputRightElement>
               </InputGroup>
             </FormControl>
-            <Stack spacing={10} pt={2}>
-              <Button
-                loadingText="Submitting"
-                size="lg"
-                bg={'blue.400'}
-                color={'white'}
-                _hover={{
-                  bg: 'blue.500',
-                }}
-              >
-                Sign up
-              </Button>
-            </Stack>
+            <Skeleton isLoaded={!isLoading}>
+              <Stack spacing={10} pt={2}>
+                <Button
+                  loadingText="Submitting"
+                  size="lg"
+                  bg={'blue.400'}
+                  color={'white'}
+                  _hover={{
+                    bg: 'blue.500',
+                  }}
+                  onClick={onSubmit}
+                >
+                  Sign up
+                </Button>
+              </Stack>
+            </Skeleton>
+
             <Stack pt={6}>
               <Text align={'center'}>
                 Already a user?{' '}
