@@ -13,7 +13,7 @@ exports.sendJwtToken = (req, res, next) => {
   }
   const payload = { sub: req.user.id };
   const token = jwt.sign(payload, process.env.JWT_SECRET);
-  return res.status(200).json({ token });
+  return res.redirect(`${process.env.CLIENT_HOST}/token/${token}`);
 };
 
 exports.signup = [

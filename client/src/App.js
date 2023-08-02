@@ -8,6 +8,7 @@ import LoginCard from './components/Authentication/Login';
 import HomePage from './components/Home/HomePage';
 import UserProfile from './components/Profile/UserProfile';
 import NotFound from './components/Error/NotFound';
+import FacebookToken from './components/Authentication/FacebookToken';
 
 function App() {
   const [user, setUser] = useState({});
@@ -33,7 +34,12 @@ function App() {
               />
             </>
           )}
+
           <Route path="/" element={<Navigate replace to="/facebook-clone" />} />
+          <Route
+            path="/facebook-clone/token/:tokenId"
+            element={<FacebookToken />}
+          />
           <Route path="*" element={<NotFound />} />
         </Routes>
       </BrowserRouter>
