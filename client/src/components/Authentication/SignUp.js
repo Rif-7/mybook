@@ -73,7 +73,7 @@ export default function SignupCard(props) {
         >
           <Stack spacing={4}>
             {errors.length > 0 ? (
-              <Alert status="error">
+              <Alert status="error" borderRadius={'md'}>
                 <AlertIcon />
                 {errors[0]}
               </Alert>

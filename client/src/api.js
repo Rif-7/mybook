@@ -38,6 +38,27 @@ const signUp = async (firstname, lastname, email, password) => {
       }),
     });
 
+    return await response.json();
+  } catch (err) {
+    console.log(err);
+    return { error: ['Unexpected error occured'] };
+  }
+};
+
+const login = async (email, password) => {
+  try {
+    let response = await fetch(apiUrl + '/login', {
+      method: 'POST',
+      mode: 'cors',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        email,
+        password,
+      }),
+    });
+
     response = await response.json();
     console.log(response);
     return response;
@@ -47,4 +68,4 @@ const signUp = async (firstname, lastname, email, password) => {
   }
 };
 
-export { apiUrl, setUserDetails, signUp };
+export { apiUrl, setUserDetails, signUp, login };

@@ -13,16 +13,39 @@ import {
   Heading,
   Text,
   useColorModeValue,
+  Skeleton,
+  Alert,
+  AlertIcon,
 } from '@chakra-ui/react';
 
 import { useState } from 'react';
 import { ViewIcon, ViewOffIcon } from '@chakra-ui/icons';
 import { Link } from 'react-router-dom';
 import FacebookButton from './FacebookLoginButton';
+import { login, setUserDetails } from '../../api';
 
 export default function LoginCard(props) {
   const { setUser } = props;
   const [showPassword, setShowPassword] = useState(false);
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [errors, setErrors] = useState([]);
+  const [isLoading, setIsLoading] = useState(false);
+
+  const updateEmail = e => setEmail(e.target.value);
+  const updatePassword = e => setPassword(e.target.value);
+
+  const onSubmit = async e => {
+    e.preventDefault();
+    setIsLoading(true);
+    const res = await login(email, password);
+    if (res.error) {
+      setIsLoading(false);
+      return setErrors(res.error);
+    }
+    localStorage.setItem('token', res.token);
+    await setUserDetails(setUser);
+  };
 
   return (
     <Flex
@@ -44,14 +67,24 @@ export default function LoginCard(props) {
           p={8}
         >
           <Stack spacing={4}>
+            {errors.length > 0 ? (
+              <Alert status="error" borderRadius={'md'}>
+                <AlertIcon />
+                {errors[0]}
+              </Alert>
+            ) : null}
             <FormControl id="email" isRequired>
               <FormLabel>Email address</FormLabel>
-              <Input type="email" />
+              <Input type="email" value={email} onChange={updateEmail} />
             </FormControl>
             <FormControl id="password" isRequired>
               <FormLabel>Password</FormLabel>
               <InputGroup>
-                <Input type={showPassword ? 'text' : 'password'} />
+                <Input
+                  type={showPassword ? 'text' : 'password'}
+                  value={password}
+                  onChange={updatePassword}
+                />
                 <InputRightElement h={'full'}>
                   <Button
                     variant={'ghost'}
@@ -64,19 +97,22 @@ export default function LoginCard(props) {
                 </InputRightElement>
               </InputGroup>
             </FormControl>
-            <Stack spacing={10} pt={2}>
-              <Button
-                loadingText="Submitting"
-                size="lg"
-                bg={'blue.400'}
-                color={'white'}
-                _hover={{
-                  bg: 'blue.500',
-                }}
-              >
-                Login
-              </Button>
-            </Stack>
+            <Skeleton isLoaded={!isLoading}>
+              <Stack spacing={10} pt={2}>
+                <Button
+                  onClick={onSubmit}
+                  loadingText="Submitting"
+                  size="lg"
+                  bg={'blue.400'}
+                  color={'white'}
+                  _hover={{
+                    bg: 'blue.500',
+                  }}
+                >
+                  Login
+                </Button>
+              </Stack>
+            </Skeleton>
             <Stack pt={6}>
               <Text align={'center'}>
                 Not a user?{' '}
