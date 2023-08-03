@@ -24,7 +24,7 @@ function App() {
         <Routes>
           {user.firstName ? (
             <>
-              <Route path="/facebook-clone" element={<NavOutlet />}>
+              <Route path="/facebook-clone" element={<NavOutlet user={user} />}>
                 <Route index element={<HomePage user={user} />} />
                 <Route path="profile" element={<UserProfile user={user} />} />
                 <Route

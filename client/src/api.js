@@ -59,9 +59,7 @@ const login = async (email, password) => {
       }),
     });
 
-    response = await response.json();
-    console.log(response);
-    return response;
+    return await response.json();
   } catch (err) {
     console.log(err);
     return { error: ['Unexpected error occured'] };

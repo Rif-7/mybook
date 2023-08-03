@@ -75,7 +75,12 @@ export default function LoginCard(props) {
             ) : null}
             <FormControl id="email" isRequired>
               <FormLabel>Email address</FormLabel>
-              <Input type="email" value={email} onChange={updateEmail} />
+              <Input
+                type="email"
+                value={email}
+                onChange={updateEmail}
+                required={true}
+              />
             </FormControl>
             <FormControl id="password" isRequired>
               <FormLabel>Password</FormLabel>
@@ -84,6 +89,7 @@ export default function LoginCard(props) {
                   type={showPassword ? 'text' : 'password'}
                   value={password}
                   onChange={updatePassword}
+                  required={true}
                 />
                 <InputRightElement h={'full'}>
                   <Button

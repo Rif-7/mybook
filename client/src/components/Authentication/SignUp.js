@@ -87,6 +87,8 @@ export default function SignupCard(props) {
                     type="text"
                     value={firstname}
                     onChange={updateFirstname}
+                    required={true}
+                    minLength={1}
                   />
                 </FormControl>
               </Box>
@@ -97,19 +99,29 @@ export default function SignupCard(props) {
                     type="text"
                     value={lastname}
                     onChange={updateLastname}
+                    required={true}
+                    minLength={1}
                   />
                 </FormControl>
               </Box>
             </HStack>
             <FormControl id="email" isRequired>
               <FormLabel>Email address</FormLabel>
-              <Input type="email" value={email} onChange={updateEmail} />
+              <Input
+                type="email"
+                required={true}
+                minLength={1}
+                value={email}
+                onChange={updateEmail}
+              />
             </FormControl>
             <FormControl id="password" isRequired>
               <FormLabel>Password</FormLabel>
               <InputGroup>
                 <Input
                   type={showPassword ? 'text' : 'password'}
+                  required={true}
+                  minLength={6}
                   value={password}
                   onChange={updatePassword}
                 />

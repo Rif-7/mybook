@@ -15,10 +15,9 @@ import {
 import { Outlet } from 'react-router-dom';
 
 import { AiOutlineUser, AiOutlineLogout } from 'react-icons/ai';
-import { AtSignIcon } from '@chakra-ui/icons';
 import NewPostDrawer from './NewPostDrawer';
 
-function Navbar() {
+function Navbar({ user }) {
   return (
     <>
       <Box bg={'#F7FAFC'} px={4}>
@@ -38,7 +37,10 @@ function Navbar() {
                 >
                   <Avatar
                     size={'sm'}
-                    src={'https://avatars.dicebear.com/api/male/username.svg'}
+                    bg="blue.500"
+                    color="white"
+                    name={`${user.firstName} ${user.lastName}`}
+                    src={user.profilePicUrl}
                   />
                 </MenuButton>
                 <MenuList alignItems={'center'}>
@@ -46,13 +48,17 @@ function Navbar() {
                   <Center>
                     <Avatar
                       size={'2xl'}
-                      src={'https://avatars.dicebear.com/api/male/username.svg'}
+                      bg="blue.500"
+                      color="white"
+                      name={`${user.firstName} ${user.lastName}`}
+                      src={user.profilePicUrl}
                     />
                   </Center>
                   <br />
                   <Center>
-                    <AtSignIcon />
-                    <p>Username</p>
+                    <p>
+                      {user.firstName} {user.lastName}
+                    </p>
                   </Center>
                   <br />
                   <MenuDivider />
@@ -74,10 +80,10 @@ function Navbar() {
   );
 }
 
-export default function NavOutlet() {
+export default function NavOutlet({ user }) {
   return (
     <>
-      <Navbar />
+      <Navbar user={user} />
       <Outlet />
     </>
   );
