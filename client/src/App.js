@@ -18,13 +18,21 @@ function App() {
     setUserDetails(setUser);
   }, []);
 
+  const logout = () => {
+    localStorage.removeItem('token');
+    setUser({});
+  };
+
   return (
     <ChakraProvider>
       <BrowserRouter>
         <Routes>
           {user.firstName ? (
             <>
-              <Route path="/facebook-clone" element={<NavOutlet user={user} />}>
+              <Route
+                path="/facebook-clone"
+                element={<NavOutlet user={user} logout={logout} />}
+              >
                 <Route index element={<HomePage user={user} />} />
                 <Route path="profile" element={<UserProfile user={user} />} />
                 <Route

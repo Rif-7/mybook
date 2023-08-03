@@ -17,7 +17,7 @@ import { Outlet } from 'react-router-dom';
 import { AiOutlineUser, AiOutlineLogout } from 'react-icons/ai';
 import NewPostDrawer from './NewPostDrawer';
 
-function Navbar({ user }) {
+function Navbar({ user, logout }) {
   return (
     <>
       <Box bg={'#F7FAFC'} px={4}>
@@ -66,7 +66,7 @@ function Navbar({ user }) {
                     <Icon as={AiOutlineUser} mr={'5px'} />
                     Profile
                   </MenuItem>
-                  <MenuItem>
+                  <MenuItem onClick={logout}>
                     <Icon as={AiOutlineLogout} mr={'5px'} />
                     Logout
                   </MenuItem>
@@ -80,10 +80,10 @@ function Navbar({ user }) {
   );
 }
 
-export default function NavOutlet({ user }) {
+export default function NavOutlet({ user, logout }) {
   return (
     <>
-      <Navbar user={user} />
+      <Navbar user={user} logout={logout} />
       <Outlet />
     </>
   );
