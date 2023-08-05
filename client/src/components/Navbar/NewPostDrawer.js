@@ -13,10 +13,12 @@ import {
   AlertIcon,
   DrawerContent,
   DrawerCloseButton,
+  useToast,
 } from '@chakra-ui/react';
 
 import { AddIcon } from '@chakra-ui/icons';
 import { useState, useRef } from 'react';
+import { submitPost } from '../../api';
 
 export default function NewPostDrawer() {
   const fileInputRef = useRef(null);
@@ -24,6 +26,9 @@ export default function NewPostDrawer() {
   const [selectedImage, setSelectedImage] = useState(null);
   const [previewImage, setPreviewImage] = useState(null);
   const [caption, setCaption] = useState('');
+  const [error, setError] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
+  const toast = useToast();
 
   const handleImageChange = e => {
     const imageFile = e.target.files[0];
@@ -50,13 +55,36 @@ export default function NewPostDrawer() {
     setCaption('');
     setSelectedImage(null);
     setPreviewImage(null);
+    setError('');
     onClose();
   };
 
-  const onSubmit = e => {
+  const onSubmit = async e => {
     e.preventDefault();
-    console.log(selectedImage);
-    console.log(caption);
+    setIsLoading(true);
+    if (!caption) return;
+    const formData = new FormData();
+
+    formData.append('text', caption);
+    if (selectedImage) {
+      formData.append('image', selectedImage);
+    }
+
+    const res = await submitPost(formData);
+    if (res.error) {
+      setIsLoading(false);
+      return setError(res.error);
+    }
+
+    setIsLoading(false);
+    customOnClose();
+    toast({
+      title: 'Post created.',
+      description: 'Post submitted successfully.',
+      status: 'success',
+      duration: 3000,
+      isClosable: true,
+    });
   };
 
   return (
@@ -84,6 +112,12 @@ export default function NewPostDrawer() {
           <DrawerBody overflowY={'auto'}>
             <Box as={'form'} mt={10} onSubmit={onSubmit}>
               <Stack spacing={4} alignItems={'center'}>
+                {error ? (
+                  <Alert status="error" borderRadius={'md'}>
+                    <AlertIcon />
+                    {error}
+                  </Alert>
+                ) : null}
                 <Input
                   placeholder="Caption"
                   onChange={handleCaptionChange}
@@ -136,6 +170,7 @@ export default function NewPostDrawer() {
                   bgGradient: 'linear(to-r, red.400,pink.400)',
                   boxShadow: 'xl',
                 }}
+                isLoading={isLoading}
               >
                 Submit
               </Button>

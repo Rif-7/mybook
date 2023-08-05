@@ -22,4 +22,4 @@ PostSchema.virtual("timestamp_formatted").get(function () {
   );
 });
 
-exports.default = mongoose.model("Post", PostSchema);
+module.exports = mongoose.model("Post", PostSchema);

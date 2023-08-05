@@ -13,9 +13,8 @@ exports.createPost = [
       let errors = validationResult(req);
       if (!errors.isEmpty()) {
         errors = errors.formatWith((error) => error.msg);
-        return res.status(400).json({ error: errors.array() });
+        return res.status(400).json({ error: errors.array()[0] });
       }
-
       let post = new Post({
         userId: req.user._id,
         text: req.body.text,

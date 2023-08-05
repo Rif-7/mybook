@@ -11,9 +11,11 @@ import {
   Stack,
   Center,
   Icon,
+  Text,
+  HStack,
 } from '@chakra-ui/react';
-import { Outlet } from 'react-router-dom';
 
+import { Link, Outlet } from 'react-router-dom';
 import { AiOutlineUser, AiOutlineLogout } from 'react-icons/ai';
 import NewPostDrawer from './NewPostDrawer';
 
@@ -22,7 +24,18 @@ function Navbar({ user, logout }) {
     <>
       <Box bg={'#F7FAFC'} px={4}>
         <Flex h={16} alignItems={'center'} justifyContent={'space-between'}>
-          <Box>Logo</Box>
+          <Link to="/facebook-clone/">
+            <HStack>
+              <Avatar size={'md'} src={'./book.png'} />
+              <Text
+                fontFamily={'monospace'}
+                fontWeight={'bold'}
+                fontSize={'2xl'}
+              >
+                MyBook
+              </Text>
+            </HStack>
+          </Link>
 
           <Flex alignItems={'center'}>
             <Stack direction={'row'} spacing={7}>
@@ -63,10 +76,15 @@ function Navbar({ user, logout }) {
                   <br />
                   <MenuDivider />
                   <MenuItem>
-                    <Icon as={AiOutlineUser} mr={'5px'} />
-                    Profile
+                    <Link
+                      to="/facebook-clone/profile"
+                      style={{ width: '100%' }}
+                    >
+                      <Icon as={AiOutlineUser} mr={'5px'} />
+                      Profile
+                    </Link>
                   </MenuItem>
-                  <MenuItem onClick={logout}>
+                  <MenuItem onClick={logout} bg={'red.100'}>
                     <Icon as={AiOutlineLogout} mr={'5px'} />
                     Logout
                   </MenuItem>

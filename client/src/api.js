@@ -41,7 +41,7 @@ const signUp = async (firstname, lastname, email, password) => {
     return await response.json();
   } catch (err) {
     console.log(err);
-    return { error: ['Unexpected error occured'] };
+    return { error: ['An Unexpected Error Occured'] };
   }
 };
 
@@ -62,8 +62,29 @@ const login = async (email, password) => {
     return await response.json();
   } catch (err) {
     console.log(err);
-    return { error: ['Unexpected error occured'] };
+    return { error: ['An Unexpected Error Occured'] };
   }
 };
 
-export { apiUrl, setUserDetails, signUp, login };
+const submitPost = async formData => {
+  try {
+    const token = localStorage.getItem('token');
+    if (!token) return { error: 'Authentication Failed' };
+
+    let response = await fetch(apiUrl + '/posts', {
+      method: 'POST',
+      mode: 'cors',
+      headers: {
+        Authorization: 'Bearer ' + token,
+      },
+      body: formData,
+    });
+
+    return await response.json();
+  } catch (err) {
+    console.log(err);
+    return { error: 'An Unexpected Error Occured' };
+  }
+};
+
+export { apiUrl, setUserDetails, signUp, login, submitPost };
