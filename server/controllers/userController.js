@@ -114,13 +114,30 @@ exports.login = [
   },
 ];
 
-exports.getUserDetails = async (req, res, next) => {
+exports.getSignedUser = async (req, res, next) => {
   try {
     return res.status(200).json({
       firstName: req.user.firstName,
       lastName: req.user.lastName,
       profilePicUrl: req.user.profilePicUrl,
     });
+  } catch (err) {
+    return next(err);
+  }
+};
+
+exports.getUserInfo = async (req, res, next) => {
+  try {
+    if (!req.params.userId) {
+      return res.status(400).json({ error: "User ID is missing" });
+    }
+    const user = await User.findById(req.params.id).select(
+      "firstName lastName profilePicUrl"
+    );
+    if (!user) {
+      return res.status(404).json({ error: "User not found" });
+    }
+    return res.status(200).json(user);
   } catch (err) {
     return next(err);
   }
