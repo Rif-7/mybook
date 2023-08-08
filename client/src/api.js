@@ -87,4 +87,80 @@ const submitPost = async formData => {
   }
 };
 
-export { apiUrl, setUserDetails, signUp, login, submitPost };
+const getPosts = async setPosts => {
+  try {
+    const token = localStorage.getItem('token');
+    if (!token) {
+      return { error: 'Authentication failed' };
+    }
+
+    const response = await fetch(apiUrl + '/posts', {
+      method: 'GET',
+      mode: 'cors',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: 'Bearer ' + token,
+      },
+    });
+
+    return await response.json();
+  } catch (err) {
+    console.log(err);
+    return { error: 'An Unexpected Error Occured' };
+  }
+};
+
+const getUserList = async () => {
+  try {
+    const token = localStorage.getItem('token');
+    if (!token) {
+      return { error: 'Authentication Failed' };
+    }
+
+    const response = await fetch(apiUrl + '/users', {
+      method: 'GET',
+      mode: 'cors',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: 'Bearer ' + token,
+      },
+    });
+
+    return await response.json();
+  } catch (err) {
+    console.log(err);
+    return { error: 'An Unexpected Error Occured' };
+  }
+};
+
+const getUserInfo = async userId => {
+  try {
+    const token = localStorage.getItem('token');
+    if (!token) {
+      return { error: 'Authentication Failed' };
+    }
+    const response = await fetch(apiUrl + '/users/' + userId, {
+      method: 'GET',
+      mode: 'cors',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: 'Bearer ' + token,
+      },
+    });
+    return await response.json();
+  } catch (err) {
+    console.log(err);
+    return { error: 'An Unexpected Error Occured' };
+  }
+};
+
+export {
+  apiUrl,
+  setUserDetails,
+  signUp,
+  login,
+  submitPost,
+  getPosts,
+  getUserList,
+  getUserInfo,
+};
