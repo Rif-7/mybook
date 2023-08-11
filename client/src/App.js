@@ -10,6 +10,7 @@ import UserProfile from './components/Profile/UserProfile';
 import NotFound from './components/Error/NotFound';
 import FacebookToken from './components/Authentication/FacebookToken';
 import { setUserDetails } from './api';
+import UserList from './components/Users/UserList';
 
 function App() {
   const [user, setUser] = useState({});
@@ -35,6 +36,8 @@ function App() {
               >
                 <Route index element={<HomePage user={user} />} />
                 <Route path="profile" element={<UserProfile user={user} />} />
+                <Route path="users" element={<UserList />} />
+
                 <Route
                   path="/facebook-clone/login"
                   element={<Navigate replace to="/facebook-clone" />}
