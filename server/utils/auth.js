@@ -55,7 +55,6 @@ passport.use(
 
         if (user) {
           user.accessToken = accessToken;
-          user.profilePicUrl = profilePicUrl;
           await user.save();
         } else {
           user = new User({
