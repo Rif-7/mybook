@@ -14,6 +14,7 @@ const setUserDetails = async setUser => {
     });
     response = await response.json();
     if (!response.error && !response.errors) {
+      console.log(response);
       setUser(response);
     }
   } catch (err) {

@@ -10,6 +10,8 @@ import {
   useColorModeValue,
 } from '@chakra-ui/react';
 
+import { Link } from 'react-router-dom';
+
 export default function UserCard(props) {
   const { firstName, lastName, profilePicUrl } = props.user;
   return (
@@ -23,7 +25,7 @@ export default function UserCard(props) {
         textAlign={'center'}
       >
         <Avatar
-          size={'xl'}
+          size={'2xl'}
           src={profilePicUrl}
           name={`${firstName} ${lastName}`}
           mb={4}
@@ -31,8 +33,14 @@ export default function UserCard(props) {
           //   color="white"
           pos={'relative'}
         />
-        <Heading fontSize={'2xl'} fontFamily={'body'}>
-          {`${firstName} ${lastName}`}
+        <Heading
+          fontSize={'2xl'}
+          fontFamily={'body'}
+          _hover={{
+            textDecoration: 'underline',
+          }}
+        >
+          <Link to="#">{`${firstName} ${lastName}`}</Link>
         </Heading>
 
         <Stack mt={8} direction={'row'} spacing={4}>

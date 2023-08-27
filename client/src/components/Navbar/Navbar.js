@@ -16,7 +16,7 @@ import {
 } from '@chakra-ui/react';
 
 import { Link, Outlet } from 'react-router-dom';
-import { AiOutlineUser, AiOutlineLogout } from 'react-icons/ai';
+import { AiOutlineUser, AiOutlineTeam, AiOutlineLogout } from 'react-icons/ai';
 import NewPostDrawer from './NewPostDrawer';
 
 function Navbar({ user, logout }) {
@@ -82,6 +82,12 @@ function Navbar({ user, logout }) {
                     >
                       <Icon as={AiOutlineUser} mr={'5px'} />
                       Profile
+                    </Link>
+                  </MenuItem>
+                  <MenuItem>
+                    <Link to="/facebook-clone/users" style={{ width: '100%' }}>
+                      <Icon as={AiOutlineTeam} mr={'5px'} />
+                      Users
                     </Link>
                   </MenuItem>
                   <MenuItem onClick={logout} bg={'red.100'}>
