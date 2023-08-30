@@ -12,11 +12,10 @@ import {
   Tab,
   TabPanel,
   TabIndicator,
-  Divider,
 } from '@chakra-ui/react';
 
 import { EditIcon } from '@chakra-ui/icons';
-
+import PostContainer from './PostContainer';
 export default function UserProfile(props) {
   const { firstName, lastName, profilePicUrl, email } = props.user;
   if (!firstName) {
@@ -46,17 +45,17 @@ export default function UserProfile(props) {
             </Button>
           </HStack>
           <Flex direction={'column'} gap={2}>
-            <Text as="b">
-              Posts: {0} Friends: {0}
+            <Text fontSize={'18px'} as="em">
+              {email}
             </Text>
-            <Text as="em" fontSize={'18px'}>
-              {'test@gmail.com'}
+            <Text fontFamily={'monospace'} fontSize={'18px'}>
+              Posts: {0} | Friends: {0}
             </Text>
           </Flex>
         </Flex>
       </Flex>
       <Tabs variant="unstyled">
-        <TabList>
+        <TabList justifyContent={'center'}>
           <Tab>Posts</Tab>
           <Tab>Friends</Tab>
         </TabList>
@@ -68,10 +67,10 @@ export default function UserProfile(props) {
         />
         <TabPanels>
           <TabPanel>
-            <p>Posts TODO</p>
+            <PostContainer />
           </TabPanel>
           <TabPanel>
-            <p>Friends TODO</p>
+            <p>Friends TODO </p>
           </TabPanel>
         </TabPanels>
       </Tabs>
