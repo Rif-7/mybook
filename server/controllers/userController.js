@@ -300,7 +300,6 @@ exports.getUserFriendDetails = async (req, res, next) => {
       .populate("requestSent", queryField)
       .populate("requestRecieved", queryField)
       .populate("friends", queryField);
-
     return res.status(200).json(friendDetails);
   } catch (err) {
     return next(err);

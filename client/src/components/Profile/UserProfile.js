@@ -18,6 +18,7 @@ import {
 
 import { EditIcon } from '@chakra-ui/icons';
 import PostContainer from './PostContainer';
+import FriendContainer from './FriendContainer';
 export default function UserProfile({ user }) {
   const { firstName, lastName, profilePicUrl, email, id } = user;
   const [friendCount, setFriendCount] = useState(0);
@@ -59,6 +60,7 @@ export default function UserProfile({ user }) {
           </Flex>
         </Flex>
       </Flex>
+
       <Tabs variant="unstyled">
         <TabList justifyContent={'center'}>
           <Tab>Posts</Tab>
@@ -75,7 +77,7 @@ export default function UserProfile({ user }) {
             <PostContainer userId={id} setPostCount={setPostCount} />
           </TabPanel>
           <TabPanel>
-            <p>Friends TODO </p>
+            <FriendContainer setFriendCount={setFriendCount} />
           </TabPanel>
         </TabPanels>
       </Tabs>
