@@ -44,12 +44,12 @@ exports.getUsersPosts = async (req, res, next) => {
     if (!req.params.userId) {
       return res.status(400).json({ error: "User ID is missing" });
     }
-    const user = await User.findById(req.params.id);
+    const user = await User.findById(req.params.userId);
     if (!user) {
       return res.status(404).json({ error: "User not found" });
     }
     const posts = await Post.find({ userId: user.id }).sort({ timestamp: -1 });
-    return res.status(200).json(posts);
+    return res.status(200).json({ posts });
   } catch (err) {
     return next(err);
   }

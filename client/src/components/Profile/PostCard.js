@@ -9,17 +9,8 @@ import {
 } from '@chakra-ui/react';
 import { BsArrowUpRight, BsHeartFill, BsHeart } from 'react-icons/bs';
 
-const data = {
-  isNew: true,
-  imageURL:
-    'https://cdn.pixabay.com/photo/2015/04/23/22/00/tree-736885_1280.jpg',
-  name: 'This is a test comment to test stuff haha lol this is boringThis is a test comment to test stuff haha lol this is boring This is a test comment to test stuff haha lol this is boring This is a test comment to test stuff haha lol this is boring',
-  price: 4.5,
-  rating: 4.2,
-  numReviews: 34,
-};
-
-export default function PostCard({ show }) {
+export default function PostCard({ post }) {
+  const { text, image, timestamp_formatted } = post;
   return (
     <Flex>
       <Box
@@ -27,26 +18,24 @@ export default function PostCard({ show }) {
         maxW="sm"
         borderWidth="1px"
         rounded="lg"
-        shadow="lg"
+        shadow="2xl"
         position="relative"
       >
-        {show ? (
+        {image ? (
           <Image
-            w={'100%'}
+            maxW={'100%'}
             maxH={'400px'}
-            src={data.imageURL}
-            alt={`Picture of ${data.name}`}
+            src={image}
+            alt={`Post image`}
             roundedTop="lg"
           />
         ) : null}
 
         <Box p="6">
           <Box display="flex" alignItems="baseline">
-            {data.isNew && (
-              <Badge rounded="full" px="2" fontSize="0.8em" colorScheme="red">
-                Oct 14, 1983, 9:30 AM
-              </Badge>
-            )}
+            <Badge rounded="full" px="2" fontSize="0.8em" colorScheme="red">
+              {timestamp_formatted}
+            </Badge>
           </Box>
           <Flex mt="1" justifyContent="space-between" alignContent="center">
             <Box
@@ -56,7 +45,7 @@ export default function PostCard({ show }) {
               lineHeight="tight"
               isTruncated
             >
-              {data.name}
+              {text}
             </Box>
           </Flex>
           <HStack color="black" justify={'space-between'}>

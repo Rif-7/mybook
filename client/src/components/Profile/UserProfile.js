@@ -1,3 +1,5 @@
+import { useState } from 'react';
+
 import { Navigate } from 'react-router-dom';
 import {
   VStack,
@@ -16,8 +18,11 @@ import {
 
 import { EditIcon } from '@chakra-ui/icons';
 import PostContainer from './PostContainer';
-export default function UserProfile(props) {
-  const { firstName, lastName, profilePicUrl, email } = props.user;
+export default function UserProfile({ user }) {
+  const { firstName, lastName, profilePicUrl, email, id } = user;
+  const [friendCount, setFriendCount] = useState(0);
+  const [postCount, setPostCount] = useState(0);
+
   if (!firstName) {
     return <Navigate replace to="/facebook-clone/login" />;
   }
@@ -49,7 +54,7 @@ export default function UserProfile(props) {
               {email}
             </Text>
             <Text fontFamily={'monospace'} fontSize={'18px'}>
-              Posts: {0} | Friends: {0}
+              Posts: {postCount} | Friends: {friendCount}
             </Text>
           </Flex>
         </Flex>
@@ -67,7 +72,7 @@ export default function UserProfile(props) {
         />
         <TabPanels>
           <TabPanel>
-            <PostContainer />
+            <PostContainer userId={id} setPostCount={setPostCount} />
           </TabPanel>
           <TabPanel>
             <p>Friends TODO </p>

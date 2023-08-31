@@ -13,7 +13,6 @@ function UserList() {
 
   const handleUsers = async () => {
     const res = await getUserList();
-    console.log(res);
     if (res.error) {
       return toast({
         title: 'An error occured',
@@ -28,8 +27,8 @@ function UserList() {
   return (
     <Flex wrap={'wrap'} gap={'4'} justifyContent={'space-around'}>
       {users.length > 0 ? (
-        users.map(user => {
-          return <UserCard user={user} />;
+        users.map((user, index) => {
+          return <UserCard key={index} user={user} />;
         })
       ) : (
         <Loading />

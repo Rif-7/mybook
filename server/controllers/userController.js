@@ -121,6 +121,7 @@ exports.getSignedUser = async (req, res, next) => {
       lastName: req.user.lastName,
       profilePicUrl: req.user.profilePicUrl,
       email: req.user.email,
+      id: req.user.id,
     });
   } catch (err) {
     return next(err);

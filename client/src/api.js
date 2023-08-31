@@ -88,7 +88,7 @@ const submitPost = async formData => {
   }
 };
 
-const getPosts = async setPosts => {
+const getPosts = async () => {
   try {
     const token = localStorage.getItem('token');
     if (!token) {
@@ -103,7 +103,6 @@ const getPosts = async setPosts => {
         Authorization: 'Bearer ' + token,
       },
     });
-
     return await response.json();
   } catch (err) {
     console.log(err);
@@ -155,6 +154,28 @@ const getUserInfo = async userId => {
   }
 };
 
+const getUserPosts = async userId => {
+  try {
+    const token = localStorage.getItem('token');
+    if (!token) {
+      return { error: 'Authentication failed' };
+    }
+
+    const response = await fetch(apiUrl + '/users/' + userId + '/posts', {
+      method: 'GET',
+      mode: 'cors',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: 'Bearer ' + token,
+      },
+    });
+    return await response.json();
+  } catch (err) {
+    console.log(err);
+    return { error: 'An Unexpected Error Occured' };
+  }
+};
+
 export {
   apiUrl,
   setUserDetails,
@@ -164,4 +185,5 @@ export {
   getPosts,
   getUserList,
   getUserInfo,
+  getUserPosts,
 };

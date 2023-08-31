@@ -22,4 +22,6 @@ PostSchema.virtual("timestamp_formatted").get(function () {
   );
 });
 
+PostSchema.set("toJSON", { getters: true });
+
 module.exports = mongoose.model("Post", PostSchema);
