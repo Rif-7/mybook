@@ -61,7 +61,7 @@ export default function UserProfile({ user }) {
         </Flex>
       </Flex>
 
-      <Tabs variant="unstyled">
+      <Tabs variant="unstyled" w="full">
         <TabList justifyContent={'center'}>
           <Tab>Posts</Tab>
           <Tab>Friends</Tab>

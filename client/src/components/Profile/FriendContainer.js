@@ -1,16 +1,36 @@
-import { Alert, AlertIcon, Flex } from '@chakra-ui/react';
+import { Alert, AlertIcon, Flex, Grid, Select } from '@chakra-ui/react';
 import { getUserFriendDetails } from '../../api';
 import { useEffect, useState } from 'react';
+import FriendCard from './FriendCard';
 
 export default function FriendContainer({ setFriendCount }) {
   const [friends, setFriends] = useState([]);
   const [friendReqRecieved, setFriendReqRecieved] = useState([]);
   const [friendReqSent, setFriendReqSent] = useState([]);
+  const [currDisplay, setCurrDisplay] = useState([]);
+  const [selection, setSelection] = useState('friends');
   const [error, setError] = useState(null);
 
   useEffect(() => {
     handleFriends();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
+  useEffect(() => {
+    switch (selection) {
+      case 'friends':
+        setCurrDisplay(friends);
+        break;
+      case 'sent':
+        setCurrDisplay(friendReqSent);
+        break;
+      case 'received':
+        setCurrDisplay(friendReqRecieved);
+        break;
+      default:
+        setCurrDisplay(friends);
+    }
+  }, [selection, friends, friendReqSent, friendReqRecieved]);
 
   const handleFriends = async () => {
     const res = await getUserFriendDetails();
@@ -19,9 +39,14 @@ export default function FriendContainer({ setFriendCount }) {
       return;
     }
     setFriends(res.friends);
+    setCurrDisplay(res.friends);
     setFriendReqRecieved(res.requestRecieved);
     setFriendReqSent(res.requestSent);
     setFriendCount(res.friends.length);
+  };
+
+  const onSelectionChange = e => {
+    setSelection(e.target.value);
   };
 
   if (error) {
@@ -34,8 +59,28 @@ export default function FriendContainer({ setFriendCount }) {
   }
 
   return (
-    <Flex gap={12} align={'flex-start'} justify={'center'} flexWrap={'wrap'}>
-      TODO
+    <Flex gap={4} direction={'column'}>
+      <Select
+        variant="filled"
+        w={'200px'}
+        alignSelf={'center'}
+        value={selection}
+        onChange={onSelectionChange}
+      >
+        <option value="friends">Friends</option>
+        <option value="sent">Requests Sent</option>
+        <option value="received">Request Received</option>
+      </Select>
+
+      <Grid
+        gap={12}
+        justifyContent={'center'}
+        templateColumns="repeat(auto-fill, minmax(250px, 400px))"
+      >
+        {currDisplay.map(({ firstname, lastname }, index) => (
+          <FriendCard key={index} firstname={firstname} lastname={lastname} />
+        ))}
+      </Grid>
     </Flex>
   );
 }
