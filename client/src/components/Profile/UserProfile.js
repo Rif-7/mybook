@@ -14,6 +14,7 @@ import {
   Tab,
   TabPanel,
   TabIndicator,
+  Avatar,
 } from '@chakra-ui/react';
 
 import { EditIcon } from '@chakra-ui/icons';
@@ -34,7 +35,13 @@ export default function UserProfile({ user }) {
         gap={8}
         alignItems={'center'}
       >
-        <Image borderRadius="full" boxSize="s" src={profilePicUrl} />
+        <Avatar
+          size={'2xl'}
+          bg="blue.500"
+          color="white"
+          name={`${user.firstName} ${user.lastName}`}
+          src={profilePicUrl}
+        />
 
         <Flex direction={'column'} gap={2}>
           <HStack>
