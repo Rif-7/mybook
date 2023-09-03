@@ -77,9 +77,17 @@ export default function FriendContainer({ setFriendCount }) {
         justifyContent={'center'}
         templateColumns="repeat(auto-fill, minmax(250px, 400px))"
       >
-        {currDisplay.map(({ firstname, lastname }, index) => (
-          <FriendCard key={index} firstname={firstname} lastname={lastname} />
-        ))}
+        {currDisplay.map(
+          ({ _id, firstName, lastName, profilePicUrl }, index) => (
+            <FriendCard
+              key={index}
+              id={_id}
+              firstname={firstName}
+              lastname={lastName}
+              profilePicUrl={profilePicUrl}
+            />
+          )
+        )}
       </Grid>
     </Flex>
   );

@@ -25,7 +25,7 @@ function UserList() {
     setUsers(res.users);
   };
   return (
-    <Flex wrap={'wrap'} gap={'4'} justifyContent={'space-around'}>
+    <Flex wrap={'wrap'} gap={'8'} justifyContent={'center'}>
       {users.length > 0 ? (
         users.map((user, index) => {
           return <UserCard key={index} user={user} />;
@@ -40,6 +40,7 @@ function UserList() {
 const Loading = () => {
   return (
     <>
+      <Skeleton height="250px" w={'320px'} my={6} />
       <Skeleton height="250px" w={'320px'} my={6} />
       <Skeleton height="250px" w={'320px'} my={6} />
       <Skeleton height="250px" w={'320px'} my={6} />

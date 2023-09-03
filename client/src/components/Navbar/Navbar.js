@@ -40,62 +40,68 @@ function Navbar({ user, logout }) {
           <Flex alignItems={'center'}>
             <Stack direction={'row'} spacing={7}>
               <NewPostDrawer />
-              <Menu>
-                <MenuButton
-                  as={Button}
-                  rounded={'full'}
-                  variant={'link'}
-                  cursor={'pointer'}
-                  minW={0}
-                >
-                  <Avatar
-                    size={'sm'}
-                    bg="blue.500"
-                    color="white"
-                    name={`${user.firstName} ${user.lastName}`}
-                    src={user.profilePicUrl}
-                  />
-                </MenuButton>
-                <MenuList alignItems={'center'}>
-                  <br />
-                  <Center>
+              <Box>
+                <Menu>
+                  <MenuButton
+                    as={Button}
+                    rounded={'full'}
+                    variant={'link'}
+                    cursor={'pointer'}
+                    minW={0}
+                  >
                     <Avatar
-                      size={'2xl'}
+                      size={'sm'}
                       bg="blue.500"
                       color="white"
                       name={`${user.firstName} ${user.lastName}`}
                       src={user.profilePicUrl}
                     />
-                  </Center>
-                  <br />
-                  <Center>
-                    <p>
-                      {user.firstName} {user.lastName}
-                    </p>
-                  </Center>
-                  <br />
-                  <MenuDivider />
-                  <MenuItem>
-                    <Link
-                      to="/facebook-clone/profile"
-                      style={{ width: '100%' }}
-                    >
-                      <Icon as={AiOutlineUser} mr={'5px'} />
-                      Profile
-                    </Link>
-                  </MenuItem>
-                  <MenuItem>
-                    <Link to="/facebook-clone/users" style={{ width: '100%' }}>
-                      <Icon as={AiOutlineTeam} mr={'5px'} />
-                      Users
-                    </Link>
-                  </MenuItem>
-                  <MenuItem onClick={logout} bg={'red.100'}>
-                    <Icon as={AiOutlineLogout} mr={'5px'} />
-                    Logout
-                  </MenuItem>
-                </MenuList>
-              </Menu>
+                  </MenuButton>
+                  <MenuList alignItems={'center'}>
+                    <br />
+                    <Center>
+                      <Avatar
+                        size={'2xl'}
+                        bg="blue.500"
+                        color="white"
+                        name={`${user.firstName} ${user.lastName}`}
+                        src={user.profilePicUrl}
+                      />
+                    </Center>
+                    <br />
+                    <Center>
+                      <p>
+                        {user.firstName} {user.lastName}
+                      </p>
+                    </Center>
+                    <br />
+                    <MenuDivider />
+                    <MenuItem>
+                      <Link
+                        width="full"
+                        to="/facebook-clone/profile"
+                        style={{ width: '100%' }}
+                      >
+                        <Icon as={AiOutlineUser} mr={'5px'} />
+                        Profile
+                      </Link>
+                    </MenuItem>
+                    <MenuItem>
+                      <Link
+                        to="/facebook-clone/users"
+                        style={{ width: '100%' }}
+                      >
+                        <Icon as={AiOutlineTeam} mr={'5px'} />
+                        Users
+                      </Link>
+                    </MenuItem>
+                    <MenuItem onClick={logout} bg={'red.100'}>
+                      <Icon as={AiOutlineLogout} mr={'5px'} />
+                      Logout
+                    </MenuItem>
+                  </MenuList>
+                </Menu>
+              </Box>
             </Stack>
           </Flex>
         </Flex>
