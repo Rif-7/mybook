@@ -177,13 +177,13 @@ exports.sentFriendRequest = async (req, res, next) => {
     friendsFriendDoc.requestRecieved.push(req.user.id);
     await friendsFriendDoc.save();
 
-    const userFriendDoc = await req.user.friend_details;
-    userFriendDoc.requestSent.push(req.params.userId);
-    await userFriendDoc.save();
     // Update user's friend document
-    // await Friend.findByIdAndUpdate(req.user._id, {
-    //   $push: { requestSent: req.params.userId },
-    // });
+    await Friend.findOneAndUpdate(
+      { userId: req.user.id },
+      {
+        $push: { requestSent: req.params.userId },
+      }
+    );
 
     return res
       .status(200)
