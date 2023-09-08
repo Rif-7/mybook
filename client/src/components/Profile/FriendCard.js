@@ -1,7 +1,14 @@
-import { CloseIcon } from '@chakra-ui/icons';
+import { CheckIcon, CloseIcon } from '@chakra-ui/icons';
 import { Avatar, HStack, IconButton, Text } from '@chakra-ui/react';
 
-export default function FriendCard({ id, firstname, lastname, profilePicUrl }) {
+// friends, recieved, sent
+export default function FriendCard({
+  id,
+  firstname,
+  lastname,
+  profilePicUrl,
+  cardType,
+}) {
   return (
     <HStack
       bg={'white'}
@@ -15,12 +22,54 @@ export default function FriendCard({ id, firstname, lastname, profilePicUrl }) {
       <Text flexGrow={1} w="max-content">
         {firstname} {lastname}
       </Text>
-      <IconButton
-        size={'sm'}
-        icon={<CloseIcon />}
-        variant={'outline'}
-        colorScheme="red"
-      />
+      <ButtonList cardType={cardType} />
+    </HStack>
+  );
+}
+
+function ButtonList({ cardType }) {
+  return (
+    <HStack>
+      {cardType === 'sent' ? (
+        <>
+          <IconButton
+            size={'sm'}
+            icon={<CloseIcon />}
+            variant={'outline'}
+            colorScheme="red"
+          />
+        </>
+      ) : cardType === 'recieved' ? (
+        <>
+          <IconButton
+            size={'sm'}
+            icon={<CheckIcon />}
+            variant={'outline'}
+            colorScheme="green"
+          />
+          <IconButton
+            size={'sm'}
+            icon={<CloseIcon />}
+            variant={'outline'}
+            colorScheme="red"
+          />
+        </>
+      ) : (
+        <>
+          <IconButton
+            size={'sm'}
+            icon={<CheckIcon />}
+            variant={'outline'}
+            colorScheme="green"
+          />
+          <IconButton
+            size={'sm'}
+            icon={<CloseIcon />}
+            variant={'outline'}
+            colorScheme="red"
+          />
+        </>
+      )}
     </HStack>
   );
 }

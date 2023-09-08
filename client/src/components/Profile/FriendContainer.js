@@ -85,6 +85,7 @@ export default function FriendContainer({ setFriendCount }) {
               firstname={firstName}
               lastname={lastName}
               profilePicUrl={profilePicUrl}
+              cardType={selection}
             />
           )
         )}

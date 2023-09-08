@@ -4,5 +4,5 @@ export default function HomePage({ user }) {
   if (!user.firstName) {
     return <Navigate replace to="/facebook-clone/login" />;
   }
-  return <h1>Homepage</h1>;
+  return <h1></h1>;
 }

@@ -11,13 +11,15 @@ import {
   Stack,
   Center,
   Icon,
-  Text,
   HStack,
+  Image,
+  Text,
 } from '@chakra-ui/react';
 
 import { Link, Outlet } from 'react-router-dom';
 import { AiOutlineUser, AiOutlineTeam, AiOutlineLogout } from 'react-icons/ai';
 import NewPostDrawer from './NewPostDrawer';
+import Logo from '../../Logo';
 
 function Navbar({ user, logout }) {
   return (
@@ -25,16 +27,7 @@ function Navbar({ user, logout }) {
       <Box bg={'#F7FAFC'} px={4}>
         <Flex h={16} alignItems={'center'} justifyContent={'space-between'}>
           <Link to="/facebook-clone/">
-            <HStack>
-              <Avatar size={'md'} src={'./book.png'} />
-              <Text
-                fontFamily={'monospace'}
-                fontWeight={'bold'}
-                fontSize={'2xl'}
-              >
-                MyBook
-              </Text>
-            </HStack>
+            <Logo />
           </Link>
 
           <Flex alignItems={'center'}>

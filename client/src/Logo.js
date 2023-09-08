@@ -1,18 +1,19 @@
-import React from 'react';
-import { Image, keyframes, usePrefersReducedMotion } from '@chakra-ui/react';
-import logo from './logo.svg';
+import { Center, Text } from '@chakra-ui/react';
 
-const spin = keyframes`
-  from { transform: rotate(0deg); }
-  to { transform: rotate(360deg); }
-`;
-
-export const Logo = props => {
-  const prefersReducedMotion = usePrefersReducedMotion();
-
-  const animation = prefersReducedMotion
-    ? undefined
-    : `${spin} infinite 20s linear`;
-
-  return <Image animation={animation} src={logo} {...props} />;
-};
+export default function Logo() {
+  return (
+    <Center h={'45px'} w={'100px'} rounded={'md'} bg={'#4ecca3'}>
+      <Text
+        mt={'-5px'}
+        h="30px"
+        fontFamily={'mono'}
+        fontSize={'22px'}
+        color={'white'}
+        fontWeight={'bold'}
+        borderBottom={'3px solid black'}
+      >
+        MYBOOK
+      </Text>
+    </Center>
+  );
+}
