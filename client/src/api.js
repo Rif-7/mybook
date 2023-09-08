@@ -14,7 +14,6 @@ const setUserDetails = async setUser => {
     });
     response = await response.json();
     if (!response.error && !response.errors) {
-      console.log(response);
       setUser(response);
     }
   } catch (err) {
@@ -125,8 +124,8 @@ const getUserList = async () => {
         Authorization: 'Bearer ' + token,
       },
     });
-
-    return await response.json();
+    const test = await response.json();
+    return test;
   } catch (err) {
     console.log(err);
     return { error: 'An Unexpected Error Occured' };

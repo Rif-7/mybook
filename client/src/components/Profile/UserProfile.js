@@ -4,7 +4,6 @@ import { Navigate } from 'react-router-dom';
 import {
   VStack,
   Flex,
-  Image,
   Text,
   Button,
   HStack,

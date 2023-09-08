@@ -1,10 +1,11 @@
 import { useState, useEffect } from 'react';
 import { getUserList } from '../../api';
-import { Flex, Skeleton, useToast } from '@chakra-ui/react';
+import { Alert, AlertIcon, Flex, Skeleton, useToast } from '@chakra-ui/react';
 import UserCard from './UserCard';
 
 function UserList() {
   const [users, setUsers] = useState([]);
+  const [isLoaded, setIsLoaded] = useState(false);
   useEffect(() => {
     handleUsers();
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -23,7 +24,18 @@ function UserList() {
       });
     }
     setUsers(res.users);
+    setIsLoaded(true);
   };
+
+  if (isLoaded && users.length === 0) {
+    return (
+      <Alert status="info" fontSize={'24px'}>
+        <AlertIcon />
+        No users left!
+      </Alert>
+    );
+  }
+
   return (
     <Flex wrap={'wrap'} gap={'8'} justifyContent={'center'}>
       {users.length > 0 ? (

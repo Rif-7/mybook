@@ -319,7 +319,7 @@ exports.getUserList = async (req, res, next) => {
       ...friendDetails.requestRecieved,
       ...friendDetails.requestSent,
     ];
-    const users = await User.find({ userId: { $nin: excludedUsers } }).select(
+    const users = await User.find({ _id: { $nin: excludedUsers } }).select(
       "firstName lastName profilePicUrl"
     );
     return res.status(200).json({ users });
