@@ -12,7 +12,7 @@ import {
 import { useState } from 'react';
 
 import { Link } from 'react-router-dom';
-import { sentFriendRequest } from '../../api';
+import { handleFriendRequest } from '../../api';
 
 export default function UserCard(props) {
   const { firstName, lastName, profilePicUrl, _id } = props.user;
@@ -22,7 +22,7 @@ export default function UserCard(props) {
 
   const onFriendReqSent = async () => {
     setIsLoading(true);
-    const res = await sentFriendRequest(_id);
+    const res = await handleFriendRequest(_id, 'sent');
     if (res.error) {
       toast({
         title: 'Error',
