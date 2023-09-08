@@ -13,6 +13,7 @@ router.post(
   ensureAuth,
   userController.declineFriendRequest
 );
+router.post("/:userId/cancel", ensureAuth, userController.cancelFriendRequest);
 router.post("/:userId/remove", ensureAuth, userController.removeFriend);
 
 module.exports = router;

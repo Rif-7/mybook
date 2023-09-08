@@ -258,13 +258,48 @@ exports.declineFriendRequest = async (req, res, next) => {
     await Friend.findOneAndUpdate(
       { userId: req.user.id },
       {
-        $pull: { requestRecieved: friendDoc.id },
+        $pull: { requestRecieved: req.params.userId },
       }
     );
 
     return res
       .status(200)
       .json({ success: "Friend request declined successfully" });
+  } catch (err) {
+    return next(err);
+  }
+};
+
+exports.cancelFriendRequest = async (req, res, next) => {
+  try {
+    if (!req.params.userId) {
+      return res.status(400).json({ error: "Friend ID is missing" });
+    }
+
+    const friendDoc = await User.findById(req.params.userId);
+    if (!friendDoc) {
+      return res.status(404).json({ error: "Friend not found" });
+    }
+    const friendsFriendDoc = await friendDoc.friend_details;
+    const hasSentRequest = friendsFriendDoc.requestRecieved.includes(
+      req.user.id
+    );
+    if (!hasSentRequest) {
+      return res
+        .status(400)
+        .json({ error: "The user has not sent a friend request" });
+    }
+
+    // update friend's document
+    friendsFriendDoc.requestRecieved.pull(req.user.id);
+    await friendsFriendDoc.save();
+    // update user's document
+    await Friend.findOneAndUpdate(
+      { userId: req.user.id },
+      {
+        $pull: { requestSent: req.params.userId },
+      }
+    );
   } catch (err) {
     return next(err);
   }
