@@ -57,6 +57,7 @@ export default function UserCard(props) {
         textAlign={'center'}
       >
         <Avatar
+          key={`${firstName} ${lastName}`}
           size={'2xl'}
           src={profilePicUrl}
           name={`${firstName} ${lastName}`}

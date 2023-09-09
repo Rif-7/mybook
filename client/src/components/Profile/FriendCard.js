@@ -45,7 +45,12 @@ export default function FriendCard({
       rounded="lg"
       shadow="2xl"
     >
-      <Avatar size="md" name={`${firstname} ${lastname}`} src={profilePicUrl} />
+      <Avatar
+        key={`${firstname} ${lastname}`}
+        size="md"
+        name={`${firstname} ${lastname}`}
+        src={profilePicUrl}
+      />
       <Text flexGrow={1} w="max-content">
         {firstname} {lastname}
       </Text>

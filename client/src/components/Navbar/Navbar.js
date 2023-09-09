@@ -11,9 +11,6 @@ import {
   Stack,
   Center,
   Icon,
-  HStack,
-  Image,
-  Text,
 } from '@chakra-ui/react';
 
 import { Link, Outlet } from 'react-router-dom';
@@ -43,6 +40,7 @@ function Navbar({ user, logout }) {
                     minW={0}
                   >
                     <Avatar
+                      key={`${user.firstName} ${user.lastName}`}
                       size={'sm'}
                       bg="blue.500"
                       color="white"
