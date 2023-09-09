@@ -39,7 +39,6 @@ export default function FriendContainer({ setFriendCount }) {
       return;
     }
     setFriends(res.friends);
-    setCurrDisplay(res.friends);
     setFriendReqRecieved(res.requestRecieved);
     setFriendReqSent(res.requestSent);
     setFriendCount(res.friends.length);
@@ -86,6 +85,7 @@ export default function FriendContainer({ setFriendCount }) {
               lastname={lastName}
               profilePicUrl={profilePicUrl}
               cardType={selection}
+              handleFriends={handleFriends}
             />
           )
         )}

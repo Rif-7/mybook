@@ -79,7 +79,7 @@ export default function NewPostDrawer() {
     setIsLoading(false);
     customOnClose();
     toast({
-      title: 'Post created.',
+      title: 'Post created',
       description: 'Post submitted successfully.',
       status: 'success',
       duration: 3000,

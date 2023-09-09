@@ -198,14 +198,14 @@ const getUserFriendDetails = async () => {
   }
 };
 
-const handleFriendRequest = async (userId, decision) => {
+const handleFriendRequest = async (userId, action) => {
   try {
     const token = localStorage.getItem('token');
     if (!token) {
       return { error: 'Authentication failed' };
     }
 
-    const response = await fetch(`${apiUrl}/friends/${userId}/${decision}`, {
+    const response = await fetch(`${apiUrl}/friends/${userId}/${action}`, {
       method: 'POST',
       mode: 'cors',
       headers: {

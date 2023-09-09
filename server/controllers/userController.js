@@ -300,6 +300,10 @@ exports.cancelFriendRequest = async (req, res, next) => {
         $pull: { requestSent: req.params.userId },
       }
     );
+
+    return res
+      .status(200)
+      .json({ success: "Friend request canceled successfully" });
   } catch (err) {
     return next(err);
   }

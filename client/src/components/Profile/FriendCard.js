@@ -1,14 +1,41 @@
 import { CheckIcon, CloseIcon } from '@chakra-ui/icons';
-import { Avatar, HStack, IconButton, Text } from '@chakra-ui/react';
+import { Avatar, HStack, IconButton, Text, useToast } from '@chakra-ui/react';
+import { handleFriendRequest } from '../../api';
+import { useState } from 'react';
 
-// friends, recieved, sent
 export default function FriendCard({
   id,
   firstname,
   lastname,
   profilePicUrl,
   cardType,
+  handleFriends,
 }) {
+  const toast = useToast();
+
+  const handleAction = async action => {
+    const res = await handleFriendRequest(id, action);
+    if (res.error) {
+      toast({
+        title: 'Error',
+        description: res.error,
+        status: 'error',
+        duration: 3000,
+        isClosable: true,
+      });
+      return;
+    }
+
+    toast({
+      title: 'Success',
+      description: res.success,
+      status: 'success',
+      duration: 3000,
+      isClosable: true,
+    });
+    await handleFriends();
+  };
+
   return (
     <HStack
       bg={'white'}
@@ -22,32 +49,48 @@ export default function FriendCard({
       <Text flexGrow={1} w="max-content">
         {firstname} {lastname}
       </Text>
-      <ButtonList cardType={cardType} />
+      <ButtonList cardType={cardType} handleAction={handleAction} />
     </HStack>
   );
 }
 
-function ButtonList({ cardType }) {
+function ButtonList({ cardType, handleAction }) {
+  const [isLoading, setIsLoading] = useState(false);
+
+  const onButtonClick = action => {
+    return async () => {
+      setIsLoading(true);
+      await handleAction(action);
+      setIsLoading(false);
+    };
+  };
+
   return (
     <HStack>
       {cardType === 'sent' ? (
         <>
           <IconButton
+            isLoading={isLoading}
+            onClick={onButtonClick('cancel')}
             size={'sm'}
             icon={<CloseIcon />}
             variant={'outline'}
             colorScheme="red"
           />
         </>
-      ) : cardType === 'recieved' ? (
+      ) : cardType === 'received' ? (
         <>
           <IconButton
+            isLoading={isLoading}
+            onClick={onButtonClick('accept')}
             size={'sm'}
             icon={<CheckIcon />}
             variant={'outline'}
             colorScheme="green"
           />
           <IconButton
+            isLoading={isLoading}
+            onClick={onButtonClick('decline')}
             size={'sm'}
             icon={<CloseIcon />}
             variant={'outline'}
@@ -57,12 +100,8 @@ function ButtonList({ cardType }) {
       ) : (
         <>
           <IconButton
-            size={'sm'}
-            icon={<CheckIcon />}
-            variant={'outline'}
-            colorScheme="green"
-          />
-          <IconButton
+            isLoading={isLoading}
+            onClick={onButtonClick('remove')}
             size={'sm'}
             icon={<CloseIcon />}
             variant={'outline'}
