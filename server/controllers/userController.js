@@ -4,6 +4,7 @@ const { body, validationResult } = require("express-validator");
 const User = require("../models/user");
 const Friend = require("../models/friend");
 const { createHash, comparePassword } = require("../utils/auth");
+const mongoose = require("mongoose");
 require("dotenv").config({ path: path.resolve(__dirname, "../.env") });
 
 // creates jwt token for users signed in using facebook
@@ -130,10 +131,13 @@ exports.getSignedUser = async (req, res, next) => {
 
 exports.getUserInfo = async (req, res, next) => {
   try {
-    if (!req.params.userId) {
-      return res.status(400).json({ error: "User ID is missing" });
+    if (
+      !req.params.userId ||
+      !mongoose.Types.ObjectId.isValid(req.params.userId)
+    ) {
+      return res.status(400).json({ error: "Invalid User ID" });
     }
-    const user = await User.findById(req.params.id).select(
+    const user = await User.findById(req.params.userId).select(
       "firstName lastName profilePicUrl"
     );
     if (!user) {
@@ -344,6 +348,29 @@ exports.getUserFriendDetails = async (req, res, next) => {
       .populate("requestRecieved", queryField)
       .populate("friends", queryField);
     return res.status(200).json(friendDetails);
+  } catch (err) {
+    return next(err);
+  }
+};
+
+exports.getUserFriends = async (req, res, next) => {
+  try {
+    if (
+      !req.params.userId ||
+      !mongoose.Types.ObjectId.isValid(req.params.userId)
+    ) {
+      return res.status(400).json({ error: "Invalid User ID" });
+    }
+    const queryField = "firstName lastName profilePicUrl";
+    const friendDetails = await Friend.findOne({ userId: req.params.userId })
+      .populate("requestSent", queryField)
+      .populate("requestRecieved", queryField)
+      .populate("friends", queryField);
+
+    if (!friendDetails) {
+      return res.status(404).json({ error: "User not found" });
+    }
+    return res.status(200).json({ friends: friendDetails.friends });
   } catch (err) {
     return next(err);
   }

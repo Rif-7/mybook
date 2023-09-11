@@ -4,7 +4,7 @@ const userController = require("../controllers/userController");
 const { ensureAuth } = require("../utils/auth");
 
 router.get("/", ensureAuth, userController.getUserFriendDetails);
-
+router.get("/:userId", ensureAuth, userController.getUserFriends);
 // sent a friend request to the user with userId
 router.post("/:userId/sent", ensureAuth, userController.sentFriendRequest);
 router.post("/:userId/accept", ensureAuth, userController.acceptFriendRequest);

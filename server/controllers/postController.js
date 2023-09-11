@@ -1,5 +1,6 @@
 const multer = require("multer");
 const upload = multer({ dest: "../uploads" });
+const mongoose = require("mongoose");
 const uploadFile = require("../utils/fileUpload");
 const Post = require("../models/post");
 const User = require("../models/user");
@@ -41,7 +42,10 @@ exports.createPost = [
 
 exports.getUsersPosts = async (req, res, next) => {
   try {
-    if (!req.params.userId) {
+    if (
+      !req.params.userId ||
+      !mongoose.Types.ObjectId.isValid(req.params.userId)
+    ) {
       return res.status(400).json({ error: "User ID is missing" });
     }
     const user = await User.findById(req.params.userId);
