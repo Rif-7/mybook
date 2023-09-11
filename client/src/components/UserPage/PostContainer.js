@@ -1,9 +1,7 @@
-'use client';
-
 import { Alert, AlertIcon, Flex } from '@chakra-ui/react';
-import PostCard from './PostCard';
 import { useEffect, useState } from 'react';
 import { getUserPosts } from '../../api';
+import PostCard from '../Profile/PostCard';
 
 export default function PostContainer({ userId, setPostCount }) {
   const [posts, setPosts] = useState([]);

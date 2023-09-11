@@ -11,10 +11,10 @@ import NotFound from './components/Error/NotFound';
 import FacebookToken from './components/Authentication/FacebookToken';
 import { setUserDetails } from './api';
 import UserList from './components/Users/UserList';
+import UserPage from './components/UserPage/UserPage';
 
 function App() {
   const [user, setUser] = useState({});
-
   useEffect(() => {
     setUserDetails(setUser);
   }, []);
@@ -37,6 +37,10 @@ function App() {
                 <Route index element={<HomePage user={user} />} />
                 <Route path="profile" element={<UserProfile user={user} />} />
                 <Route path="users" element={<UserList />} />
+                <Route
+                  path="users/:userId"
+                  element={<UserPage user={user} />}
+                />
 
                 <Route
                   path="/facebook-clone/login"

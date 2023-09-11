@@ -198,6 +198,29 @@ const getUserFriendDetails = async () => {
   }
 };
 
+const getUserFriends = async userId => {
+  try {
+    const token = localStorage.getItem('token');
+    if (!token) {
+      return { error: 'Authentication failed' };
+    }
+
+    const response = await fetch(apiUrl + '/friends/' + userId, {
+      method: 'GET',
+      mode: 'cors',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: 'Bearer ' + token,
+      },
+    });
+
+    return await response.json();
+  } catch (err) {
+    console.log(err);
+    return { error: 'An Unexpected Error Occured' };
+  }
+};
+
 const handleFriendRequest = async (userId, action) => {
   try {
     const token = localStorage.getItem('token');
@@ -231,5 +254,6 @@ export {
   getUserInfo,
   getUserPosts,
   getUserFriendDetails,
+  getUserFriends,
   handleFriendRequest,
 };
