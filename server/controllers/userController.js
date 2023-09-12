@@ -362,10 +362,9 @@ exports.getUserFriends = async (req, res, next) => {
       return res.status(400).json({ error: "Invalid User ID" });
     }
     const queryField = "firstName lastName profilePicUrl";
-    const friendDetails = await Friend.findOne({ userId: req.params.userId })
-      .populate("requestSent", queryField)
-      .populate("requestRecieved", queryField)
-      .populate("friends", queryField);
+    const friendDetails = await Friend.findOne({
+      userId: req.params.userId,
+    }).populate("friends", queryField);
 
     if (!friendDetails) {
       return res.status(404).json({ error: "User not found" });

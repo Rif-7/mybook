@@ -14,9 +14,12 @@ import {
   TabPanel,
   TabIndicator,
   Avatar,
+  Box,
+  SkeletonCircle,
+  SkeletonText,
 } from '@chakra-ui/react';
 
-import { FaUserPlus } from 'react-icons/fa';
+import { FaUserPlus, FaUserMinus } from 'react-icons/fa';
 import FriendContainer from './FriendContainer';
 import PostContainer from './PostContainer';
 import { getUserInfo } from '../../api';
@@ -29,6 +32,7 @@ export default function UserPage({ user }) {
   const [firstName, setFirstName] = useState('');
   const [lastName, setLastName] = useState('');
   const [profilePicUrl, setProfilePicUrl] = useState('');
+  const [isFriends, setIsFriends] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
 
   const handleUserData = async () => {
@@ -53,6 +57,15 @@ export default function UserPage({ user }) {
     return <NotFound />;
   }
 
+  if (isLoading) {
+    return (
+      <Box padding="6" bg="white" maxW={'700px'} mx={'auto'}>
+        <SkeletonCircle size="40" mx={{ base: 'auto', md: '0px' }} />
+        <SkeletonText mt="4" noOfLines={4} spacing="4" skeletonHeight="4" />
+      </Box>
+    );
+  }
+
   return (
     <VStack pt={10} gap={10}>
       <Flex
@@ -73,14 +86,25 @@ export default function UserPage({ user }) {
             <Text fontSize={'20px'}>
               {firstName} {lastName}
             </Text>
-            <Button
-              colorScheme={'green'}
-              variant={'solid'}
-              size={'sm'}
-              rightIcon={<FaUserPlus />}
-            >
-              Sent Request
-            </Button>
+            {isFriends ? (
+              <Button
+                colorScheme={'red'}
+                variant={'solid'}
+                size={'sm'}
+                rightIcon={<FaUserMinus />}
+              >
+                Remove Friend
+              </Button>
+            ) : (
+              <Button
+                colorScheme={'green'}
+                variant={'solid'}
+                size={'sm'}
+                rightIcon={<FaUserPlus />}
+              >
+                Sent Request
+              </Button>
+            )}
           </HStack>
           <Flex direction={'column'} gap={2}>
             <Text fontFamily={'monospace'} fontSize={'18px'}>
@@ -106,7 +130,12 @@ export default function UserPage({ user }) {
             <PostContainer userId={userId} setPostCount={setPostCount} />
           </TabPanel>
           <TabPanel>
-            <FriendContainer userId={userId} setFriendCount={setFriendCount} />
+            <FriendContainer
+              signedUser={user.id}
+              userId={userId}
+              setFriendCount={setFriendCount}
+              setIsFriends={setIsFriends}
+            />
           </TabPanel>
         </TabPanels>
       </Tabs>

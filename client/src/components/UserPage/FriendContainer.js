@@ -11,7 +11,12 @@ import {
 import { getUserFriends } from '../../api';
 import { useEffect, useState } from 'react';
 
-export default function FriendContainer({ userId, setFriendCount }) {
+export default function FriendContainer({
+  signedUser,
+  userId,
+  setFriendCount,
+  setIsFriends,
+}) {
   const [friends, setFriends] = useState([]);
 
   const [error, setError] = useState(null);
@@ -29,6 +34,12 @@ export default function FriendContainer({ userId, setFriendCount }) {
     }
     setFriends(res.friends);
     setFriendCount(res.friends.length);
+    for (const friend of res.friends) {
+      if (friend._id === signedUser) {
+        setIsFriends(true);
+        break;
+      }
+    }
   };
 
   if (error) {
