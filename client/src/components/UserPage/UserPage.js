@@ -17,12 +17,13 @@ import {
   Box,
   SkeletonCircle,
   SkeletonText,
+  useToast,
 } from '@chakra-ui/react';
 
 import { FaUserPlus, FaUserMinus } from 'react-icons/fa';
 import FriendContainer from './FriendContainer';
 import PostContainer from './PostContainer';
-import { getUserInfo } from '../../api';
+import { getUserInfo, handleFriendRequest } from '../../api';
 import NotFound from '../Error/NotFound';
 
 export default function UserPage({ user }) {
@@ -34,6 +35,8 @@ export default function UserPage({ user }) {
   const [profilePicUrl, setProfilePicUrl] = useState('');
   const [isFriends, setIsFriends] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
+  const [isButtonLoading, setIsButtonLoading] = useState(false);
+  const toast = useToast();
 
   const handleUserData = async () => {
     const res = await getUserInfo(userId);
@@ -48,6 +51,32 @@ export default function UserPage({ user }) {
   useState(() => {
     handleUserData();
   }, [userId]);
+
+  const handleFriendAction = async action => {
+    setIsButtonLoading(true);
+    const res = await handleFriendRequest(userId, action);
+    setIsButtonLoading(false);
+    if (res.error) {
+      toast({
+        title: 'Error',
+        description: res.error,
+        status: 'error',
+        duration: 3000,
+        isClosable: true,
+      });
+      return;
+    }
+    toast({
+      title: 'Success',
+      description: res.success,
+      status: 'success',
+      duration: 3000,
+      isClosable: true,
+    });
+    if (action === 'remove') {
+      setIsFriends(false);
+    }
+  };
 
   if (userId === user.id) {
     return <Navigate replace to="/facebook-clone/profile" />;
@@ -88,6 +117,8 @@ export default function UserPage({ user }) {
             </Text>
             {isFriends ? (
               <Button
+                onClick={() => handleFriendAction('remove')}
+                isLoading={isButtonLoading}
                 colorScheme={'red'}
                 variant={'solid'}
                 size={'sm'}
@@ -97,6 +128,8 @@ export default function UserPage({ user }) {
               </Button>
             ) : (
               <Button
+                onClick={() => handleFriendAction('sent')}
+                isLoading={isButtonLoading}
                 colorScheme={'green'}
                 variant={'solid'}
                 size={'sm'}
@@ -135,6 +168,8 @@ export default function UserPage({ user }) {
               userId={userId}
               setFriendCount={setFriendCount}
               setIsFriends={setIsFriends}
+              // to re-render the friend container after an action that changes the friend status
+              isFriends={isFriends}
             />
           </TabPanel>
         </TabPanels>
