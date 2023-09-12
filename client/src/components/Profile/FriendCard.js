@@ -2,6 +2,7 @@ import { CheckIcon, CloseIcon } from '@chakra-ui/icons';
 import { Avatar, HStack, IconButton, Text, useToast } from '@chakra-ui/react';
 import { handleFriendRequest } from '../../api';
 import { useState } from 'react';
+import { Link } from 'react-router-dom';
 
 export default function FriendCard({
   id,
@@ -51,8 +52,16 @@ export default function FriendCard({
         name={`${firstname} ${lastname}`}
         src={profilePicUrl}
       />
-      <Text flexGrow={1} w="max-content">
-        {firstname} {lastname}
+      <Text
+        flexGrow={1}
+        w="max-content"
+        _hover={{
+          textDecoration: 'underline',
+        }}
+      >
+        <Link to={`/facebook-clone/users/${id}`}>
+          {firstname} {lastname}
+        </Link>
       </Text>
       <ButtonList cardType={cardType} handleAction={handleAction} />
     </HStack>

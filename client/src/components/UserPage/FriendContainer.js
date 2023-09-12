@@ -10,6 +10,7 @@ import {
 
 import { getUserFriends } from '../../api';
 import { useEffect, useState } from 'react';
+import { Link } from 'react-router-dom';
 
 export default function FriendContainer({
   signedUser,
@@ -89,8 +90,16 @@ function FriendCard({ id, firstname, lastname, profilePicUrl }) {
         name={`${firstname} ${lastname}`}
         src={profilePicUrl}
       />
-      <Text flexGrow={1} w="max-content">
-        {firstname} {lastname}
+      <Text
+        flexGrow={1}
+        w="max-content"
+        _hover={{
+          textDecoration: 'underline',
+        }}
+      >
+        <Link to={`/facebook-clone/users/${id}`}>
+          {firstname} {lastname}
+        </Link>
       </Text>
     </HStack>
   );

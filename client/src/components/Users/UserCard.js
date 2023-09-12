@@ -71,7 +71,9 @@ export default function UserCard(props) {
             textDecoration: 'underline',
           }}
         >
-          <Link to="#">{`${firstName} ${lastName}`}</Link>
+          <Link
+            to={`/facebook-clone/users/${_id}`}
+          >{`${firstName} ${lastName}`}</Link>
         </Heading>
 
         <Stack mt={8} direction={'row'} spacing={4}>

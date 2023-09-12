@@ -18,7 +18,6 @@ function App() {
   useEffect(() => {
     setUserDetails(setUser);
   }, []);
-
   const logout = () => {
     localStorage.removeItem('token');
     setUser({});
