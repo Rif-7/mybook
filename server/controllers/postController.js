@@ -64,10 +64,12 @@ exports.getPosts = async (req, res, next) => {
     let userFriends = await req.user.friend_details;
     userFriends = userFriends.friends;
     userFriends.push(req.user.id);
-    const posts = await Post.find({ userId: { $in: userFriends } }).sort({
-      timestamp: -1,
-    });
-    return res.status(200).json(posts);
+    const posts = await Post.find({ userId: { $in: userFriends } })
+      .sort({
+        timestamp: -1,
+      })
+      .populate("userId", "firstName lastName profilePicUrl");
+    return res.status(200).json({ posts });
   } catch (err) {
     return next(err);
   }

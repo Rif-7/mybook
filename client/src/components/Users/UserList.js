@@ -29,7 +29,15 @@ function UserList() {
 
   if (isLoaded && users.length === 0) {
     return (
-      <Alert status="info" fontSize={'24px'}>
+      <Alert
+        rounded={'lg'}
+        status="info"
+        fontSize={'24px'}
+        maxW={'lg'}
+        fontFamily={'monospace'}
+        mx="auto"
+        my={'10px'}
+      >
         <AlertIcon />
         No users left!
       </Alert>

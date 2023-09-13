@@ -4,18 +4,23 @@ import {
   Image,
   Badge,
   useColorModeValue,
-  Text,
   HStack,
+  Button,
+  Collapse,
 } from '@chakra-ui/react';
+import { useState } from 'react';
 import { BsArrowUpRight, BsHeartFill, BsHeart } from 'react-icons/bs';
 
 export default function PostCard({ post }) {
+  const [showComments, setShowComments] = useState(false);
+  const [showFullText, setShowFullText] = useState(false);
   const { text, image, timestamp_formatted } = post;
+
   return (
     <Flex>
       <Box
         bg={useColorModeValue('white', 'gray.800')}
-        maxW="sm"
+        w="sm"
         borderWidth="1px"
         rounded="lg"
         shadow="2xl"
@@ -38,30 +43,31 @@ export default function PostCard({ post }) {
             </Badge>
           </Box>
           <Flex mt="1" justifyContent="space-between" alignContent="center">
-            <Box
-              fontSize="2xl"
-              fontWeight="semibold"
-              as="h4"
-              lineHeight="tight"
-              isTruncated
-            >
-              {text}
+            <Box fontSize="2xl" fontWeight="semibold" as="h4">
+              <Collapse startingHeight={32} in={showFullText}>
+                {text}
+              </Collapse>
+              <Button
+                size={'sm'}
+                onClick={() => setShowFullText(!showFullText)}
+                mt={'2px'}
+              >
+                Show {showFullText ? 'Less' : 'More'}
+              </Button>
             </Box>
           </Flex>
+          <Collapse in={showComments} animateOpacity>
+            <Box height={'400px'} bg={'red.400'} m={'4px'}></Box>
+          </Collapse>
           <HStack color="black" justify={'space-between'}>
-            <Flex
-              p={4}
-              alignItems="center"
-              justifyContent={'space-between'}
-              roundedBottom={'sm'}
-              cursor={'pointer'}
-              maxW={'sm'}
+            <Button
+              mr={2}
+              rightIcon={<BsArrowUpRight />}
+              variant={'ghost'}
+              onClick={() => setShowComments(!showComments)}
             >
-              <Text mr={2} fontSize={'md'} fontWeight={'semibold'}>
-                View Comments
-              </Text>
-              <BsArrowUpRight />
-            </Flex>
+              View Comments
+            </Button>
             <Flex
               p={4}
               alignItems="center"
