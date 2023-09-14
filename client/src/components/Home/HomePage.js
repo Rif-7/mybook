@@ -58,7 +58,7 @@ export default function HomePage({ user }) {
         ) : null}
 
         {posts.map((post, index) => (
-          <PostCard key={index} post={post} />
+          <PostCard key={index} post={post} signedUser={user.id} />
         ))}
       </Flex>
     </Center>

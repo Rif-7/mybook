@@ -63,7 +63,6 @@ exports.getPosts = async (req, res, next) => {
   try {
     let userFriends = await req.user.friend_details;
     userFriends = userFriends.friends;
-    userFriends.push(req.user.id);
     const posts = await Post.find({ userId: { $in: userFriends } })
       .sort({
         timestamp: -1,
@@ -92,10 +91,10 @@ exports.toggleLike = async (req, res, next) => {
     let message;
     if (hasLiked) {
       post.likes.pull(req.user.id);
-      message = "Post liked successfully";
-    } else {
-      post.liked.push(req.user.id);
       message = "Post unliked successfully";
+    } else {
+      post.likes.push(req.user.id);
+      message = "Post liked successfully";
     }
     await post.save();
     return res.status(200).json({ success: message });

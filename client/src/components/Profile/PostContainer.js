@@ -36,7 +36,7 @@ export default function PostContainer({ userId, setPostCount }) {
   return (
     <Flex gap={12} align={'flex-start'} justify={'center'} flexWrap={'wrap'}>
       {posts.map((post, index) => (
-        <PostCard key={index} post={post} />
+        <PostCard key={index} post={post} signedUser={userId} />
       ))}
     </Flex>
   );

@@ -8,15 +8,42 @@ import {
   Button,
   Collapse,
   Avatar,
+  useToast,
+  Text,
 } from '@chakra-ui/react';
 import { useState } from 'react';
 import { BsArrowUpRight, BsHeartFill, BsHeart } from 'react-icons/bs';
 import { Link } from 'react-router-dom';
+import { toggleLike } from '../../api';
 
-export default function PostCard({ post }) {
+export default function PostCard({ post, signedUser }) {
+  const { _id, text, image, timestamp_formatted, likes, userId } = post;
   const [showComments, setShowComments] = useState(false);
   const [showFullText, setShowFullText] = useState(false);
-  const { text, image, timestamp_formatted, userId } = post;
+  const [isLiked, setIsLiked] = useState(likes.includes(signedUser));
+  const [likeCount, setLikeCount] = useState(likes.length);
+  const toast = useToast();
+
+  const handleLike = async () => {
+    setIsLiked(!isLiked);
+    const res = await toggleLike(_id);
+    if (res.error) {
+      toast({
+        title: 'Error',
+        description: res.error,
+        status: 'error',
+        duration: 3000,
+        isClosable: true,
+      });
+      return;
+    }
+    if (res.success === 'Post liked successfully') {
+      setLikeCount(likeCount + 1);
+    } else {
+      setLikeCount(likeCount - 1);
+    }
+  };
+
   return (
     <Box
       bg={useColorModeValue('white', 'gray.800')}
@@ -61,11 +88,13 @@ export default function PostCard({ post }) {
               {text}
             </Collapse>
             <Button
+              variant={'link'}
+              color={'gray'}
               size={'sm'}
               onClick={() => setShowFullText(!showFullText)}
               mt={'2px'}
             >
-              Show {showFullText ? 'Less' : 'More'}
+              See {showFullText ? 'Less' : 'More'}
             </Button>
           </Box>
         </Flex>
@@ -81,18 +110,15 @@ export default function PostCard({ post }) {
           >
             View Comments
           </Button>
-          <Flex
-            p={4}
-            alignItems="center"
-            justifyContent={'space-between'}
-            roundedBottom={'sm'}
-            cursor="pointer"
-          >
-            {true ? (
-              <BsHeartFill fill="red" fontSize={'24px'} />
+          <Flex p={4} alignItems="center" roundedBottom={'sm'} cursor="pointer">
+            {isLiked ? (
+              <BsHeartFill fill="red" fontSize={'24px'} onClick={handleLike} />
             ) : (
-              <BsHeart fontSize={'24px'} />
+              <BsHeart fontSize={'24px'} onClick={handleLike} />
             )}
+            <Text ml={'3px'} fontSize={'18px'} fontFamily={'monospace'}>
+              {likeCount}
+            </Text>
           </Flex>
         </HStack>
       </Box>

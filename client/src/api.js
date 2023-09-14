@@ -243,6 +243,28 @@ const handleFriendRequest = async (userId, action) => {
   }
 };
 
+const toggleLike = async postId => {
+  try {
+    const token = localStorage.getItem('token');
+    if (!token) {
+      return { error: 'Authentication failed' };
+    }
+    const response = await fetch(`${apiUrl}/posts/${postId}/like`, {
+      method: 'POST',
+      mode: 'cors',
+      headers: {
+        Authorization: 'Bearer ' + token,
+        'Content-Type': 'application/json',
+      },
+    });
+
+    return await response.json();
+  } catch (err) {
+    console.log(err);
+    return { error: 'An Unexpected Error Occured' };
+  }
+};
+
 export {
   apiUrl,
   setUserDetails,
@@ -256,4 +278,5 @@ export {
   getUserFriendDetails,
   getUserFriends,
   handleFriendRequest,
+  toggleLike,
 };
