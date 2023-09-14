@@ -15,6 +15,7 @@ import { useState } from 'react';
 import { BsArrowUpRight, BsHeartFill, BsHeart } from 'react-icons/bs';
 import { Link } from 'react-router-dom';
 import { toggleLike } from '../../api';
+import CommentContainer from '../Comment/CommentContainer';
 
 export default function PostCard({ post, signedUser }) {
   const { _id, text, image, timestamp_formatted, likes, userId } = post;
@@ -99,7 +100,7 @@ export default function PostCard({ post, signedUser }) {
           </Box>
         </Flex>
         <Collapse in={showComments} animateOpacity>
-          <Box height={'400px'} bg={'red.400'} m={'4px'}></Box>
+          <CommentContainer />
         </Collapse>
         <HStack color="black" justify={'space-between'}>
           <Button
