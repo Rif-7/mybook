@@ -31,6 +31,7 @@ router.post(
   ensureAuth,
   commentController.createComment
 );
+
 router.get(
   "/posts/:postId/comments",
   ensureAuth,

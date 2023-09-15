@@ -1,5 +1,6 @@
 const Comment = require("../models/comment");
 const Post = require("../models/post");
+const mongoose = require("mongoose");
 const { body, validationResult } = require("express-validator");
 
 exports.createComment = [
@@ -9,9 +10,12 @@ exports.createComment = [
       let errors = validationResult(req);
       if (!errors.isEmpty()) {
         errors = errors.formatWith((error) => error.msg);
-        return res.status(400).json({ error: errors.array() });
+        return res.status(400).json({ error: errors.array()[0] });
       }
-      if (!req.params.postId) {
+      if (
+        !req.params.postId ||
+        !mongoose.Types.ObjectId.isValid(req.params.postId)
+      ) {
         return res.status(400).json({ error: "Post ID is missing" });
       }
       const post = await Post.findById(req.params.postId);
@@ -33,7 +37,10 @@ exports.createComment = [
 
 exports.getComments = async (req, res, next) => {
   try {
-    if (!req.params.postId) {
+    if (
+      !req.params.postId ||
+      !mongoose.Types.ObjectId.isValid(req.params.postId)
+    ) {
       return res.status(400).json({ error: "Post ID is missing" });
     }
     const post = await Post.findById(req.params.id);
@@ -52,7 +59,10 @@ exports.getComments = async (req, res, next) => {
 
 exports.deleteComment = async (req, res, next) => {
   try {
-    if (!req.params.commentId) {
+    if (
+      !req.params.commentId ||
+      !mongoose.Types.ObjectId.isValid(req.params.commentId)
+    ) {
       return res.status(400).json({ error: "Comment ID is missing" });
     }
     const comment = Comment.findById(req.params.commentId);

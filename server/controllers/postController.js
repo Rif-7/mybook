@@ -79,7 +79,10 @@ exports.deletePost = () => {};
 
 exports.toggleLike = async (req, res, next) => {
   try {
-    if (!req.params.postId) {
+    if (
+      !req.params.postId ||
+      !mongoose.Types.ObjectId.isValid(req.params.postId)
+    ) {
       return res.status(400).json({ error: "Post ID is missing" });
     }
     const post = await Post.findById(req.params.postId);

@@ -152,7 +152,10 @@ exports.getUserInfo = async (req, res, next) => {
 exports.sentFriendRequest = async (req, res, next) => {
   try {
     // the reciever's id
-    if (!req.params.userId) {
+    if (
+      !req.params.userId ||
+      !mongoose.Types.ObjectId.isValid(req.params.userId)
+    ) {
       return res.status(400).json({ error: "Friend ID is missing" });
     }
     if (req.params.userId === req.user.id) {
@@ -199,7 +202,10 @@ exports.sentFriendRequest = async (req, res, next) => {
 
 exports.acceptFriendRequest = async (req, res, next) => {
   try {
-    if (!req.params.userId) {
+    if (
+      !req.params.userId ||
+      !mongoose.Types.ObjectId.isValid(req.params.userId)
+    ) {
       return res.status(400).json({ error: "Friend ID is missing" });
     }
 
@@ -239,7 +245,10 @@ exports.acceptFriendRequest = async (req, res, next) => {
 
 exports.declineFriendRequest = async (req, res, next) => {
   try {
-    if (!req.params.userId) {
+    if (
+      !req.params.userId ||
+      !mongoose.Types.ObjectId.isValid(req.params.userId)
+    ) {
       return res.status(400).json({ error: "Friend ID is missing" });
     }
 
@@ -276,7 +285,10 @@ exports.declineFriendRequest = async (req, res, next) => {
 
 exports.cancelFriendRequest = async (req, res, next) => {
   try {
-    if (!req.params.userId) {
+    if (
+      !req.params.userId ||
+      !mongoose.Types.ObjectId.isValid(req.params.userId)
+    ) {
       return res.status(400).json({ error: "Friend ID is missing" });
     }
 
@@ -315,7 +327,10 @@ exports.cancelFriendRequest = async (req, res, next) => {
 
 exports.removeFriend = async (req, res, next) => {
   try {
-    if (!req.params.userId) {
+    if (
+      !req.params.userId ||
+      !mongoose.Types.ObjectId.isValid(req.params.userId)
+    ) {
       return res.status(400).json({ error: "Friend ID is missing" });
     }
 
