@@ -17,9 +17,7 @@ const PostSchema = new Schema({
 });
 
 PostSchema.virtual("timestamp_formatted").get(function () {
-  return DateTime.fromJSDate(this.timestamp).toLocaleString(
-    DateTime.DATETIME_MED
-  );
+  return DateTime.fromJSDate(this.timestamp).toRelative();
 });
 
 PostSchema.set("toJSON", { getters: true });
