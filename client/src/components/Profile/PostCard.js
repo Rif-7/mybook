@@ -9,6 +9,7 @@ import {
   Collapse,
   useToast,
   Text,
+  Center,
 } from '@chakra-ui/react';
 import { useState } from 'react';
 import { BsArrowUpRight, BsHeartFill, BsHeart } from 'react-icons/bs';
@@ -58,6 +59,11 @@ export default function PostCard({ post, signedUser }) {
             maxW={'100%'}
             maxH={'400px'}
             src={image}
+            fallback={
+              <Center w="100%" h="200px" bgColor="gray.100">
+                Image not available
+              </Center>
+            }
             alt={`Post image`}
             roundedTop="lg"
           />

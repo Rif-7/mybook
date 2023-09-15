@@ -10,6 +10,7 @@ import {
   Avatar,
   useToast,
   Text,
+  Center,
 } from '@chakra-ui/react';
 import { useState } from 'react';
 import { BsArrowUpRight, BsHeartFill, BsHeart } from 'react-icons/bs';
@@ -49,6 +50,7 @@ export default function PostCard({ post, signedUser }) {
     <Box
       bg={useColorModeValue('white', 'gray.800')}
       maxW={'lg'}
+      minW={'380px'}
       borderWidth="1px"
       rounded={'lg'}
       shadow="lg"
@@ -57,10 +59,11 @@ export default function PostCard({ post, signedUser }) {
       <HStack
         roundedTop={'lg'}
         p={'5px'}
-        bg={'gray.400'}
-        color={'white'}
+        bg={'#F7FAFC'}
+        color={'black'}
         shadow="lg"
-        fontSize={'large'}
+        fontSize={'md'}
+        fontWeight={'semibold'}
       >
         <Avatar
           key={`${userId.firstName} ${userId.lastName}`}
@@ -74,7 +77,18 @@ export default function PostCard({ post, signedUser }) {
         >{`${userId.firstName} ${userId.lastName}`}</Link>
       </HStack>
 
-      {image ? <Image maxW={'100%'} src={image} alt={`Post image`} /> : null}
+      {image ? (
+        <Image
+          maxW={'100%'}
+          src={image}
+          fallback={
+            <Center w="100%" h="200px" bgColor="gray.100">
+              Image not available
+            </Center>
+          }
+          alt={`Post image`}
+        />
+      ) : null}
 
       <Box p="6">
         <Box display="flex" alignItems="baseline">
