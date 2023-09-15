@@ -11,9 +11,9 @@ const CommentSchema = new Schema({
 });
 
 CommentSchema.virtual("timestamp_formatted").get(function () {
-  return DateTime.fromJSDate(this.timestamp).toLocaleString(
-    DateTime.DATETIME_MED
-  );
+  return DateTime.fromJSDate(this.timestamp).toRelative(DateTime.DATETIME_MED);
 });
+
+CommentSchema.set("toJSON", { getters: true });
 
 module.exports = mongoose.model("Comment", CommentSchema);

@@ -43,7 +43,8 @@ exports.getComments = async (req, res, next) => {
     ) {
       return res.status(400).json({ error: "Post ID is missing" });
     }
-    const post = await Post.findById(req.params.id);
+
+    const post = await Post.findById(req.params.postId);
     if (!post) {
       return res.status(404).json({ error: "Post not found" });
     }

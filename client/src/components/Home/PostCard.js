@@ -50,7 +50,7 @@ export default function PostCard({ post, signedUser }) {
       bg={useColorModeValue('white', 'gray.800')}
       maxW={'lg'}
       borderWidth="1px"
-      roundedBottom="lg"
+      rounded={'lg'}
       shadow="lg"
       position="relative"
     >
@@ -100,7 +100,7 @@ export default function PostCard({ post, signedUser }) {
           </Box>
         </Flex>
         <Collapse in={showComments} animateOpacity>
-          <CommentContainer />
+          <CommentContainer postId={_id} />
         </Collapse>
         <HStack color="black" justify={'space-between'}>
           <Button

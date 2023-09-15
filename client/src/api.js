@@ -265,6 +265,55 @@ const toggleLike = async postId => {
   }
 };
 
+const submitComment = async (postId, text) => {
+  try {
+    const token = localStorage.getItem('token');
+    if (!token) {
+      return { error: 'Authentication failed' };
+    }
+
+    const response = await fetch(`${apiUrl}/posts/${postId}/comments`, {
+      method: 'POST',
+      mode: 'cors',
+      headers: {
+        Authorization: 'Bearer ' + token,
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        text,
+      }),
+    });
+
+    return await response.json();
+  } catch (err) {
+    console.log(err);
+    return { error: 'An Unexpected Error Occured' };
+  }
+};
+
+const getComments = async postId => {
+  try {
+    const token = localStorage.getItem('token');
+    if (!token) {
+      return { error: 'Authentication failed' };
+    }
+
+    const response = await fetch(`${apiUrl}/posts/${postId}/comments`, {
+      method: 'GET',
+      mode: 'cors',
+      headers: {
+        Authorization: 'Bearer ' + token,
+        'Content-Type': 'application/json',
+      },
+    });
+
+    return await response.json();
+  } catch (err) {
+    console.log(err);
+    return { error: 'An Unexpected Error Occured' };
+  }
+};
+
 export {
   apiUrl,
   setUserDetails,
@@ -279,4 +328,6 @@ export {
   getUserFriends,
   handleFriendRequest,
   toggleLike,
+  submitComment,
+  getComments,
 };

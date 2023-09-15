@@ -8,9 +8,10 @@ import {
   Collapse,
   Button,
 } from '@chakra-ui/react';
+import { Link } from 'react-router-dom';
 
 export default function Comment({ comment }) {
-  const { text, timestamp, userId } = comment;
+  const { text, timestamp_formatted, userId } = comment;
   const [showFullText, setShowFullText] = useState(false);
 
   return (
@@ -27,15 +28,20 @@ export default function Comment({ comment }) {
         <Avatar
           src={userId.profilePictureUrl}
           name={`${userId.firstName} ${userId.lastName}`}
-          size="sm"
+          size={{ base: 'xs', md: 'sm' }}
         />
         <Text
           ml="5px"
-          fontWeight="bold"
-        >{`${userId.firstName} ${userId.lastName}`}</Text>
+          fontWeight="semibold"
+          fontSize={{ base: 'xs', md: 'md' }}
+        >
+          <Link
+            to={`/facebook-clone/users/${userId._id}`}
+          >{`${userId.firstName} ${userId.lastName}`}</Link>
+        </Text>
         <Spacer />
-        <Text fontSize="sm" color="gray.600">
-          {timestamp}
+        <Text fontSize={{ base: 'xs', md: 'sm' }} color="gray.600">
+          {timestamp_formatted}
         </Text>
       </Flex>
 

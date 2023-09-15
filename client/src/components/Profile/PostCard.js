@@ -86,7 +86,7 @@ export default function PostCard({ post, signedUser }) {
             </Box>
           </Flex>
           <Collapse in={showComments} animateOpacity>
-            <CommentContainer />
+            <CommentContainer postId={_id} />
           </Collapse>
           <HStack color="black" justify={'space-between'}>
             <Button
