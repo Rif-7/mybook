@@ -3,17 +3,17 @@ import {
   Box,
   Image,
   Badge,
-  useColorModeValue,
   HStack,
   Button,
   Collapse,
   useToast,
   Text,
   Center,
+  Spacer,
 } from '@chakra-ui/react';
 import { useState } from 'react';
 import { BsArrowUpRight, BsHeartFill, BsHeart } from 'react-icons/bs';
-import { toggleLike } from '../../api';
+import { deletePost, toggleLike } from '../../api';
 import CommentContainer from '../Comment/CommentContainer';
 
 export default function PostCard({ post, signedUser }) {
@@ -23,7 +23,34 @@ export default function PostCard({ post, signedUser }) {
   const [showFullText, setShowFullText] = useState(false);
   const [isLiked, setIsLiked] = useState(likes.includes(signedUser));
   const [likeCount, setLikeCount] = useState(likes.length);
+  const [isDeleteLoading, setIsDeleteLoading] = useState(false);
+  const [isDeleted, setIsDeleted] = useState(false);
   const toast = useToast();
+
+  const handleDelete = async () => {
+    setIsDeleteLoading(true);
+    const res = await deletePost(_id);
+    setIsDeleteLoading(false);
+    if (res.error) {
+      toast({
+        title: 'Error',
+        description: res.error,
+        status: 'error',
+        duration: 3000,
+        isClosable: true,
+      });
+
+      return;
+    }
+    toast({
+      title: 'Success',
+      description: res.success,
+      status: 'success',
+      duration: 3000,
+      isClosable: true,
+    });
+    setIsDeleted(true);
+  };
 
   const handleLike = async () => {
     setIsLiked(!isLiked);
@@ -44,10 +71,15 @@ export default function PostCard({ post, signedUser }) {
       setLikeCount(likeCount - 1);
     }
   };
+
+  if (isDeleted) {
+    return null;
+  }
+
   return (
     <Flex>
       <Box
-        bg={useColorModeValue('white', 'gray.800')}
+        bg={'white'}
         w="sm"
         borderWidth="1px"
         rounded="lg"
@@ -60,7 +92,7 @@ export default function PostCard({ post, signedUser }) {
             maxH={'400px'}
             src={image}
             fallback={
-              <Center w="100%" h="200px" bgColor="gray.100">
+              <Center w="100%" h="250px" bgColor="gray.100">
                 Image not available
               </Center>
             }
@@ -74,6 +106,15 @@ export default function PostCard({ post, signedUser }) {
             <Badge rounded="full" px="2" fontSize="0.8em" colorScheme="red">
               {timestamp_formatted}
             </Badge>
+            <Spacer />
+            <Button
+              size={'xs'}
+              colorScheme="red"
+              isLoading={isDeleteLoading}
+              onClick={handleDelete}
+            >
+              Delete
+            </Button>
           </Box>
           <Flex mt="1" justifyContent="space-between" alignContent="center">
             <Box fontSize="2xl" fontWeight="semibold" as="h4">

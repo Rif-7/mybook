@@ -82,7 +82,7 @@ export default function PostCard({ post, signedUser }) {
           maxW={'100%'}
           src={image}
           fallback={
-            <Center w="100%" h="200px" bgColor="gray.100">
+            <Center w="100%" h="250px" bgColor="gray.100">
               Image not available
             </Center>
           }

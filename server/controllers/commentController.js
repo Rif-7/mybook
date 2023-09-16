@@ -70,7 +70,7 @@ exports.deleteComment = async (req, res, next) => {
     if (!comment) {
       return res.status(404).json({ error: "Comment not found" });
     }
-    if (comment.userId !== req.user.id) {
+    if (req.user._id.equals(comment.userId)) {
       return res
         .status(403)
         .json({ error: "You are not authorized to delete this comment" });

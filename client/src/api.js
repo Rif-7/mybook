@@ -109,6 +109,28 @@ const getPosts = async () => {
   }
 };
 
+const deletePost = async postId => {
+  try {
+    const token = localStorage.getItem('token');
+    if (!token) {
+      return { error: 'Authentication failed' };
+    }
+
+    const response = await fetch(`${apiUrl}/posts/${postId}`, {
+      method: 'DELETE',
+      mode: 'cors',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: 'Bearer ' + token,
+      },
+    });
+    return await response.json();
+  } catch (err) {
+    console.log(err);
+    return { error: 'An Unexpected Error Occured' };
+  }
+};
+
 const getUserList = async () => {
   try {
     const token = localStorage.getItem('token');
@@ -321,6 +343,7 @@ export {
   login,
   submitPost,
   getPosts,
+  deletePost,
   getUserList,
   getUserInfo,
   getUserPosts,

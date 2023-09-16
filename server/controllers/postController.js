@@ -88,12 +88,14 @@ exports.deletePost = async (req, res, next) => {
     if (!post) {
       return res.status(404).json({ error: "Post not found" });
     }
-    if (post.userId !== req.user._id) {
+    console.log(post.userId === req.user._id);
+    if (!req.user._id.equals(post.userId)) {
       return res
         .status(401)
         .json({ error: "User is unauthorized to delete this post" });
     }
-    await Post.findByIdAndDelete(post._id);
+
+    await Post.findByIdAndDelete(req.params.postId);
     await Comment.deleteMany({ postId: req.params.postId });
 
     return res.status(200).json({ success: "Post deleted successfully" });
