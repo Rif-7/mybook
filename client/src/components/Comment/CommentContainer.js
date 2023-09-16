@@ -11,7 +11,7 @@ import {
 import { useEffect, useState } from 'react';
 import { getComments, submitComment } from '../../api';
 import Comment from './Comment';
-export default function CommentContainer({ postId }) {
+export default function CommentContainer({ postId, user }) {
   const [comments, setCommnents] = useState([]);
   const [commentText, setCommentText] = useState('');
   const [isButtonLoading, setIsButtonLoading] = useState(false);
@@ -87,7 +87,7 @@ export default function CommentContainer({ postId }) {
         ) : null}
 
         {comments.map((comment, index) => (
-          <Comment key={index} comment={comment} />
+          <Comment key={index} comment={comment} signedUser={user} />
         ))}
       </Container>
     </VStack>

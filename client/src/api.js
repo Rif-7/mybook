@@ -336,6 +336,31 @@ const getComments = async postId => {
   }
 };
 
+const deleteComment = async (postId, commentId) => {
+  try {
+    const token = localStorage.getItem('token');
+    if (!token) {
+      return { error: 'Authentication failed' };
+    }
+
+    const response = await fetch(
+      `${apiUrl}/posts/${postId}/comments/${commentId}`,
+      {
+        method: 'DELETE',
+        mode: 'cors',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: 'Bearer ' + token,
+        },
+      }
+    );
+    return await response.json();
+  } catch (err) {
+    console.log(err);
+    return { error: 'An Unexpected Error Occured' };
+  }
+};
+
 export {
   apiUrl,
   setUserDetails,
@@ -353,4 +378,5 @@ export {
   toggleLike,
   submitComment,
   getComments,
+  deleteComment,
 };
