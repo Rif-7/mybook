@@ -5,6 +5,7 @@ const uploadFile = require("../utils/fileUpload");
 const Post = require("../models/post");
 const User = require("../models/user");
 const Comment = require("../models/comment");
+const fs = require("fs");
 const { body, validationResult } = require("express-validator");
 
 exports.createPost = [
@@ -31,6 +32,7 @@ exports.createPost = [
             .json({ error: "Error occured while uploading the image" });
         }
         post.image = uploadedFile.url;
+        fs.unlinkSync(imageFile.path);
       }
 
       post = await post.save();
