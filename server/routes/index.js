@@ -23,6 +23,7 @@ router.post("/login", userController.login);
 // Post Routes
 router.get("/posts", ensureAuth, postController.getPosts);
 router.post("/posts", ensureAuth, postController.createPost);
+router.delete("/posts/:postId", ensureAuth, postController.deletePost);
 router.post("/posts/:postId/like", ensureAuth, postController.toggleLike);
 
 // Comment Routes
@@ -31,7 +32,6 @@ router.post(
   ensureAuth,
   commentController.createComment
 );
-
 router.get(
   "/posts/:postId/comments",
   ensureAuth,

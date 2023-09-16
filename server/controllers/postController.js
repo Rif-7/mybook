@@ -4,6 +4,7 @@ const mongoose = require("mongoose");
 const uploadFile = require("../utils/fileUpload");
 const Post = require("../models/post");
 const User = require("../models/user");
+const Comment = require("../models/comment");
 const { body, validationResult } = require("express-validator");
 
 exports.createPost = [
@@ -74,8 +75,32 @@ exports.getPosts = async (req, res, next) => {
   }
 };
 
-// TODO: Might have to implement comment models before deletePost
-exports.deletePost = () => {};
+exports.deletePost = async (req, res, next) => {
+  try {
+    if (
+      !req.params.postId ||
+      !mongoose.Types.ObjectId.isValid(req.params.postId)
+    ) {
+      return res.status(400).json({ error: "Post ID is missing" });
+    }
+
+    const post = await Post.findById(req.params.postId);
+    if (!post) {
+      return res.status(404).json({ error: "Post not found" });
+    }
+    if (post.userId !== req.user._id) {
+      return res
+        .status(401)
+        .json({ error: "User is unauthorized to delete this post" });
+    }
+    await Post.findByIdAndDelete(post._id);
+    await Comment.deleteMany({ postId: req.params.postId });
+
+    return res.status(200).json({ success: "Post deleted successfully" });
+  } catch (err) {
+    return next(err);
+  }
+};
 
 exports.toggleLike = async (req, res, next) => {
   try {
