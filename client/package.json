@@ -1,6 +1,7 @@
 {
   "name": "client",
   "version": "0.1.0",
+  "homepage": "https://rif-7.github.io/facebook-clone/",
   "private": true,
   "dependencies": {
     "@chakra-ui/icons": "^2.0.19",
