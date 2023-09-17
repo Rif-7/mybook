@@ -1,4 +1,4 @@
-const apiUrl = 'http://localhost:4000';
+const apiUrl = 'https://facebookclone.adaptable.app';
 
 const setUserDetails = async setUser => {
   try {
