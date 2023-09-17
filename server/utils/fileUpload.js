@@ -8,7 +8,7 @@ cloudinary.config({
   api_secret: process.env.CLOUDINARY_API_SECRET,
 });
 
-module.exports = async (file) => {
+exports.uploadFile = async (file) => {
   try {
     const res = await cloudinary.uploader.upload(file, {
       resource_type: "auto",
@@ -19,3 +19,26 @@ module.exports = async (file) => {
     return {};
   }
 };
+
+exports.deleteFile = async (url) => {
+  try {
+    const publicId = extractPublicIdFromUrl(url);
+    if (!publicId) return;
+    const result = await cloudinary.uploader.destroy(publicId);
+    return result;
+  } catch (err) {
+    return null;
+  }
+};
+
+function extractPublicIdFromUrl(url) {
+  try {
+    const parts = url.split("/");
+    const filename = parts.pop(); // Get the last part of the URL (the filename)
+    const publicId = filename.split(".")[0]; // Remove the file extension
+
+    return publicId;
+  } catch (error) {
+    return null;
+  }
+}

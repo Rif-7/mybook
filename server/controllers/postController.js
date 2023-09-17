@@ -1,7 +1,7 @@
 const multer = require("multer");
 const upload = multer({ dest: "../uploads" });
 const mongoose = require("mongoose");
-const uploadFile = require("../utils/fileUpload");
+const { uploadFile, deleteFile } = require("../utils/fileUpload");
 const Post = require("../models/post");
 const User = require("../models/user");
 const Comment = require("../models/comment");
@@ -90,13 +90,14 @@ exports.deletePost = async (req, res, next) => {
     if (!post) {
       return res.status(404).json({ error: "Post not found" });
     }
-    console.log(post.userId === req.user._id);
     if (!req.user._id.equals(post.userId)) {
       return res
         .status(401)
         .json({ error: "User is unauthorized to delete this post" });
     }
-
+    if (post.image) {
+      deleteFile(post.image);
+    }
     await Post.findByIdAndDelete(req.params.postId);
     await Comment.deleteMany({ postId: req.params.postId });
 
