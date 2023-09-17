@@ -14,15 +14,18 @@ import {
   TabPanel,
   TabIndicator,
   Avatar,
+  useDisclosure,
 } from '@chakra-ui/react';
 
 import { EditIcon } from '@chakra-ui/icons';
 import PostContainer from './PostContainer';
 import FriendContainer from './FriendContainer';
-export default function UserProfile({ user }) {
+import EditProfile from './EditProfile';
+export default function UserProfile({ user, setUser }) {
   const { firstName, lastName, profilePicUrl, email, id } = user;
   const [friendCount, setFriendCount] = useState(0);
   const [postCount, setPostCount] = useState(0);
+  const { isOpen, onOpen, onClose } = useDisclosure();
 
   if (!firstName) {
     return <Navigate replace to="/facebook-clone/login" />;
@@ -48,6 +51,7 @@ export default function UserProfile({ user }) {
               {firstName} {lastName}
             </Text>
             <Button
+              onClick={onOpen}
               colorScheme={'green'}
               variant={'outline'}
               size={'sm'}
@@ -56,6 +60,14 @@ export default function UserProfile({ user }) {
               Edit Profile
             </Button>
           </HStack>
+
+          <EditProfile
+            isOpen={isOpen}
+            onClose={onClose}
+            user={user}
+            setUser={setUser}
+          />
+
           <Flex direction={'column'} gap={2}>
             <Text fontSize={'18px'} as="em">
               {email}

@@ -1,6 +1,7 @@
 const jwt = require("jsonwebtoken");
 const path = require("path");
 const { body, validationResult } = require("express-validator");
+const multer = require("multer");
 const upload = multer({ dest: "../uploads" });
 const uploadFile = require("../utils/fileUpload");
 const User = require("../models/user");
@@ -127,13 +128,14 @@ exports.updateUserProfile = [
   body("lastname", "Lastname is required").trim().isLength({ min: 1 }).escape(),
   async (req, res, next) => {
     try {
-      const errors = validationResult(req);
+      console.log("heeere");
+      let errors = validationResult(req);
       if (!errors.isEmpty()) {
         errors = errors.formatWith((error) => error.msg);
         return res.status(400).json({ error: errors.array()[0] });
       }
 
-      const user = User.findById(req.user._id);
+      const user = await User.findById(req.user._id);
 
       const imageFile = req.file;
       if (imageFile) {
@@ -148,7 +150,7 @@ exports.updateUserProfile = [
       }
 
       user.firstName = req.body.firstname;
-      user.lastName = req.body.lastName;
+      user.lastName = req.body.lastname;
       await user.save();
       return res.status(200).json({ success: "Profile Updated Successfully" });
     } catch (err) {

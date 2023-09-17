@@ -7,7 +7,7 @@ const { ensureAuth } = require("../utils/auth");
 /* GET users listing. */
 router.get("/", ensureAuth, userController.getUserList);
 router.get("/user", ensureAuth, userController.getSignedUser);
-router.put("/user", userController.updateUserProfile);
+router.put("/user", ensureAuth, userController.updateUserProfile);
 router.get("/:userId", ensureAuth, userController.getUserInfo);
 router.get("/:userId/posts", ensureAuth, postController.getUsersPosts);
 

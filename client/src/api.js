@@ -175,6 +175,29 @@ const getUserInfo = async userId => {
   }
 };
 
+const updateUserProfile = async formData => {
+  try {
+    const token = localStorage.getItem('token');
+    if (!token) {
+      return { error: 'Authentication failed' };
+    }
+
+    const response = await fetch(`${apiUrl}/users/user`, {
+      method: 'PUT',
+      mode: 'cors',
+      headers: {
+        Authorization: 'Bearer ' + token,
+      },
+      body: formData,
+    });
+
+    return await response.json();
+  } catch (err) {
+    console.log(err);
+    return { error: 'An Unexpected Error Occured' };
+  }
+};
+
 const getUserPosts = async userId => {
   try {
     const token = localStorage.getItem('token');
@@ -371,6 +394,7 @@ export {
   deletePost,
   getUserList,
   getUserInfo,
+  updateUserProfile,
   getUserPosts,
   getUserFriendDetails,
   getUserFriends,

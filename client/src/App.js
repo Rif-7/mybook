@@ -34,7 +34,10 @@ function App() {
                 element={<NavOutlet user={user} logout={logout} />}
               >
                 <Route index element={<HomePage user={user} />} />
-                <Route path="profile" element={<UserProfile user={user} />} />
+                <Route
+                  path="profile"
+                  element={<UserProfile user={user} setUser={setUser} />}
+                />
                 <Route path="users" element={<UserList />} />
                 <Route
                   path="users/:userId"
