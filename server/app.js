@@ -5,7 +5,6 @@ var cookieParser = require("cookie-parser");
 var logger = require("morgan");
 const bodyParser = require("body-parser");
 const passport = require("passport");
-const mongoose = require("mongoose");
 const cors = require("cors");
 require("./utils/auth");
 require("dotenv").config();
@@ -15,12 +14,6 @@ const usersRouter = require("./routes/users");
 const friendsRouter = require("./routes/friends");
 
 var app = express();
-
-const mongoDB = `mongodb+srv://${process.env.MONGO_USERNAME}:${process.env.MONGO_PASSWORD}@cluster0.dweb7hl.mongodb.net/?retryWrites=true&w=majority`;
-
-mongoose.connect(mongoDB, { useNewUrlParser: true, useUnifiedTopology: true });
-const db = mongoose.connection;
-db.on("error", console.error.bind(console, "MongoDB connection error: "));
 
 app.use(bodyParser.json());
 app.use(logger("dev"));
