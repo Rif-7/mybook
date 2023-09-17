@@ -16,7 +16,7 @@ import { BsArrowUpRight, BsHeartFill, BsHeart } from 'react-icons/bs';
 import { deletePost, toggleLike } from '../../api';
 import CommentContainer from '../Comment/CommentContainer';
 
-export default function PostCard({ post, signedUser }) {
+export default function PostCard({ post, signedUser, handlePosts }) {
   const { _id, text, image, timestamp_formatted, likes } = post;
 
   const [showComments, setShowComments] = useState(false);
@@ -24,7 +24,6 @@ export default function PostCard({ post, signedUser }) {
   const [isLiked, setIsLiked] = useState(likes.includes(signedUser));
   const [likeCount, setLikeCount] = useState(likes.length);
   const [isDeleteLoading, setIsDeleteLoading] = useState(false);
-  const [isDeleted, setIsDeleted] = useState(false);
   const toast = useToast();
 
   const handleDelete = async () => {
@@ -49,7 +48,7 @@ export default function PostCard({ post, signedUser }) {
       duration: 3000,
       isClosable: true,
     });
-    setIsDeleted(true);
+    await handlePosts();
   };
 
   const handleLike = async () => {
@@ -71,10 +70,6 @@ export default function PostCard({ post, signedUser }) {
       setLikeCount(likeCount - 1);
     }
   };
-
-  if (isDeleted) {
-    return null;
-  }
 
   return (
     <Flex>

@@ -124,7 +124,6 @@ export default function NewPostDrawer() {
                   value={caption}
                   bg={'gray.100'}
                   border={0}
-                  color={'gray.500'}
                   _placeholder={{
                     color: 'gray.500',
                   }}
