@@ -1,10 +1,13 @@
 const jwt = require("jsonwebtoken");
 const path = require("path");
 const { body, validationResult } = require("express-validator");
+const upload = multer({ dest: "../uploads" });
+const uploadFile = require("../utils/fileUpload");
 const User = require("../models/user");
 const Friend = require("../models/friend");
 const { createHash, comparePassword } = require("../utils/auth");
 const mongoose = require("mongoose");
+const fs = require("fs");
 require("dotenv").config({ path: path.resolve(__dirname, "../.env") });
 
 // creates jwt token for users signed in using facebook
@@ -109,6 +112,45 @@ exports.login = [
       };
       const token = jwt.sign(payload, process.env.JWT_SECRET);
       return res.status(200).json({ token });
+    } catch (err) {
+      return next(err);
+    }
+  },
+];
+
+exports.updateUserProfile = [
+  upload.single("image"),
+  body("firstname", "Firstname is required")
+    .trim()
+    .isLength({ min: 1 })
+    .escape(),
+  body("lastname", "Lastname is required").trim().isLength({ min: 1 }).escape(),
+  async (req, res, next) => {
+    try {
+      const errors = validationResult(req);
+      if (!errors.isEmpty()) {
+        errors = errors.formatWith((error) => error.msg);
+        return res.status(400).json({ error: errors.array()[0] });
+      }
+
+      const user = User.findById(req.user._id);
+
+      const imageFile = req.file;
+      if (imageFile) {
+        const uploadedFile = await uploadFile(imageFile.path);
+        if (!uploadedFile.url) {
+          return res
+            .status(500)
+            .json({ error: "Error occured while uploading the image" });
+        }
+        user.profilePicUrl = uploadedFile.url;
+        fs.unlinkSync(imageFile.path);
+      }
+
+      user.firstName = req.body.firstname;
+      user.lastName = req.body.lastName;
+      await user.save();
+      return res.status(200).json({ success: "Profile Updated Successfully" });
     } catch (err) {
       return next(err);
     }
