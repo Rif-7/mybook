@@ -53,119 +53,122 @@ export default function SignupCard(props) {
   };
 
   return (
-    <Flex
-      minH={'100vh'}
-      align={'center'}
-      justify={'center'}
-      bg={useColorModeValue('gray.50', 'gray.800')}
-    >
-      <Stack spacing={8} mx={'auto'} maxW={'lg'} py={12} px={6}>
-        <Stack align={'center'}>
-          <Heading fontSize={'4xl'} textAlign={'center'}>
-            Sign up
-          </Heading>
-        </Stack>
-        <Box
-          rounded={'lg'}
-          bg={useColorModeValue('white', 'gray.700')}
-          boxShadow={'lg'}
-          p={8}
-        >
-          <Stack spacing={4}>
-            {errors.length > 0 ? (
-              <Alert status="error" borderRadius={'md'}>
-                <AlertIcon />
-                {errors[0]}
-              </Alert>
-            ) : null}
-
-            <HStack>
-              <Box>
-                <FormControl id="firstName" isRequired>
-                  <FormLabel>First Name</FormLabel>
-                  <Input
-                    type="text"
-                    value={firstname}
-                    onChange={updateFirstname}
-                    required={true}
-                    minLength={1}
-                  />
-                </FormControl>
-              </Box>
-              <Box>
-                <FormControl id="lastName" isRequired>
-                  <FormLabel>Last Name</FormLabel>
-                  <Input
-                    type="text"
-                    value={lastname}
-                    onChange={updateLastname}
-                    required={true}
-                    minLength={1}
-                  />
-                </FormControl>
-              </Box>
-            </HStack>
-            <FormControl id="email" isRequired>
-              <FormLabel>Email address</FormLabel>
-              <Input
-                type="email"
-                required={true}
-                minLength={1}
-                value={email}
-                onChange={updateEmail}
-              />
-            </FormControl>
-            <FormControl id="password" isRequired>
-              <FormLabel>Password</FormLabel>
-              <InputGroup>
-                <Input
-                  type={showPassword ? 'text' : 'password'}
-                  required={true}
-                  minLength={6}
-                  value={password}
-                  onChange={updatePassword}
-                />
-                <InputRightElement h={'full'}>
-                  <Button
-                    variant={'ghost'}
-                    onClick={() =>
-                      setShowPassword(showPassword => !showPassword)
-                    }
-                  >
-                    {showPassword ? <ViewIcon /> : <ViewOffIcon />}
-                  </Button>
-                </InputRightElement>
-              </InputGroup>
-            </FormControl>
-            <Skeleton isLoaded={!isLoading}>
-              <Stack spacing={10} pt={2}>
-                <Button
-                  loadingText="Submitting"
-                  size="lg"
-                  bg={'blue.400'}
-                  color={'white'}
-                  _hover={{
-                    bg: 'blue.500',
-                  }}
-                  onClick={onSubmit}
-                >
-                  Sign up
-                </Button>
-              </Stack>
-            </Skeleton>
-
-            <Stack pt={6}>
-              <Text align={'center'}>
-                Already a user?{' '}
-                <Link color={'blue.400'} to="/facebook-clone/login">
-                  Login
-                </Link>
-              </Text>
-            </Stack>
-            <FacebookButton />
+    <form onSubmit={onSubmit}>
+      <Flex
+        minH={'100vh'}
+        align={'center'}
+        justify={'center'}
+        bg={useColorModeValue('gray.50', 'gray.800')}
+      >
+        <Stack spacing={8} mx={'auto'} maxW={'lg'} py={12} px={6}>
+          <Stack align={'center'}>
+            <Heading fontSize={'4xl'} textAlign={'center'}>
+              Sign up
+            </Heading>
           </Stack>
-        </Box>
-      </Stack>
-    </Flex>
+          <Box
+            rounded={'lg'}
+            bg={useColorModeValue('white', 'gray.700')}
+            boxShadow={'lg'}
+            p={8}
+          >
+            <Stack spacing={4}>
+              {errors.length > 0 ? (
+                <Alert status="error" borderRadius={'md'}>
+                  <AlertIcon />
+                  {errors[0]}
+                </Alert>
+              ) : null}
+
+              <HStack>
+                <Box>
+                  <FormControl id="firstName" isRequired>
+                    <FormLabel>First Name</FormLabel>
+                    <Input
+                      type="text"
+                      value={firstname}
+                      onChange={updateFirstname}
+                      required={true}
+                      minLength={1}
+                    />
+                  </FormControl>
+                </Box>
+                <Box>
+                  <FormControl id="lastName" isRequired>
+                    <FormLabel>Last Name</FormLabel>
+                    <Input
+                      type="text"
+                      value={lastname}
+                      onChange={updateLastname}
+                      required={true}
+                      minLength={1}
+                    />
+                  </FormControl>
+                </Box>
+              </HStack>
+              <FormControl id="email" isRequired>
+                <FormLabel>Email address</FormLabel>
+                <Input
+                  type="email"
+                  required={true}
+                  minLength={1}
+                  value={email}
+                  onChange={updateEmail}
+                />
+              </FormControl>
+              <FormControl id="password" isRequired>
+                <FormLabel>Password</FormLabel>
+                <InputGroup>
+                  <Input
+                    type={showPassword ? 'text' : 'password'}
+                    required={true}
+                    minLength={6}
+                    value={password}
+                    onChange={updatePassword}
+                  />
+                  <InputRightElement h={'full'}>
+                    <Button
+                      variant={'ghost'}
+                      onClick={() =>
+                        setShowPassword(showPassword => !showPassword)
+                      }
+                    >
+                      {showPassword ? <ViewIcon /> : <ViewOffIcon />}
+                    </Button>
+                  </InputRightElement>
+                </InputGroup>
+              </FormControl>
+              <Skeleton isLoaded={!isLoading}>
+                <Stack spacing={10} pt={2}>
+                  <Button
+                    loadingText="Submitting"
+                    size="lg"
+                    bg={'blue.400'}
+                    color={'white'}
+                    _hover={{
+                      bg: 'blue.500',
+                    }}
+                    onClick={onSubmit}
+                    type="submit"
+                  >
+                    Sign up
+                  </Button>
+                </Stack>
+              </Skeleton>
+
+              <Stack pt={6}>
+                <Text align={'center'}>
+                  Already a user?{' '}
+                  <Link color={'blue.400'} to="/facebook-clone/login">
+                    Login
+                  </Link>
+                </Text>
+              </Stack>
+              <FacebookButton />
+            </Stack>
+          </Box>
+        </Stack>
+      </Flex>
+    </form>
   );
 }
