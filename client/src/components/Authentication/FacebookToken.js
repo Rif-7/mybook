@@ -15,7 +15,7 @@ export default function FacebookToken(props) {
   }, [setUser, tokenId]);
 
   if (user.firstName) {
-    return <Navigate replace to="/facebook-clone" />;
+    return <Navigate replace to="/mybook" />;
   }
 
   return (

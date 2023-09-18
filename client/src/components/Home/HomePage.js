@@ -30,7 +30,7 @@ export default function HomePage({ user }) {
   };
 
   if (!user.firstName) {
-    return <Navigate replace to="/facebook-clone/login" />;
+    return <Navigate replace to="/mybook/login" />;
   }
 
   return (

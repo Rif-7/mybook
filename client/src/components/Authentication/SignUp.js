@@ -159,7 +159,7 @@ export default function SignupCard(props) {
               <Stack pt={6}>
                 <Text align={'center'}>
                   Already a user?{' '}
-                  <Link color={'blue.400'} to="/facebook-clone/login">
+                  <Link color={'blue.400'} to="/mybook/login">
                     Login
                   </Link>
                 </Text>

@@ -28,7 +28,7 @@ export default function UserProfile({ user, setUser }) {
   const { isOpen, onOpen, onClose } = useDisclosure();
 
   if (!firstName) {
-    return <Navigate replace to="/facebook-clone/login" />;
+    return <Navigate replace to="/mybook/login" />;
   }
   return (
     <VStack pt={10} gap={10}>

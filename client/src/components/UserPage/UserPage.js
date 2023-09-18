@@ -79,7 +79,7 @@ export default function UserPage({ user }) {
   };
 
   if (userId === user.id) {
-    return <Navigate replace to="/facebook-clone/profile" />;
+    return <Navigate replace to="/mybook/profile" />;
   }
 
   if (!isLoading && !firstName) {

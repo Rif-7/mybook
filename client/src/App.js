@@ -30,7 +30,7 @@ function App() {
           {user.firstName ? (
             <>
               <Route
-                path="/facebook-clone"
+                path="/mybook"
                 element={<NavOutlet user={user} logout={logout} />}
               >
                 <Route index element={<HomePage user={user} />} />
@@ -45,34 +45,34 @@ function App() {
                 />
 
                 <Route
-                  path="/facebook-clone/login"
-                  element={<Navigate replace to="/facebook-clone" />}
+                  path="/mybook/login"
+                  element={<Navigate replace to="/mybook" />}
                 />
                 <Route
-                  path="/facebook-clone/sign-up"
-                  element={<Navigate replace to="/facebook-clone" />}
+                  path="/mybook/sign-up"
+                  element={<Navigate replace to="/mybook" />}
                 />
               </Route>
             </>
           ) : (
             <>
               <Route
-                path="/facebook-clone/login"
+                path="/mybook/login"
                 element={<LoginCard setUser={setUser} />}
               />
               <Route
-                path="/facebook-clone/sign-up"
+                path="/mybook/sign-up"
                 element={<SignupCard setUser={setUser} />}
               />
               <Route
-                path="/facebook-clone"
-                element={<Navigate replace to="/facebook-clone/login" />}
+                path="/mybook"
+                element={<Navigate replace to="/mybook/login" />}
               />
             </>
           )}
-          <Route path="/" element={<Navigate replace to="/facebook-clone" />} />
+          <Route path="/" element={<Navigate replace to="/mybook" />} />
           <Route
-            path="/facebook-clone/token/:tokenId"
+            path="/mybook/token/:tokenId"
             element={<FacebookToken user={user} setUser={setUser} />}
           />
           <Route path="*" element={<NotFound />} />

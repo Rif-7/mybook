@@ -23,7 +23,7 @@ function Navbar({ user, logout }) {
     <>
       <Box bg={'#F7FAFC'} px={4}>
         <Flex h={16} alignItems={'center'} justifyContent={'space-between'}>
-          <Link to="/facebook-clone/">
+          <Link to="/mybook/">
             <Logo />
           </Link>
 
@@ -70,7 +70,7 @@ function Navbar({ user, logout }) {
                     <MenuItem>
                       <Link
                         width="full"
-                        to="/facebook-clone/profile"
+                        to="/mybook/profile"
                         style={{ width: '100%' }}
                       >
                         <Icon as={AiOutlineUser} mr={'5px'} />
@@ -78,10 +78,7 @@ function Navbar({ user, logout }) {
                       </Link>
                     </MenuItem>
                     <MenuItem>
-                      <Link
-                        to="/facebook-clone/users"
-                        style={{ width: '100%' }}
-                      >
+                      <Link to="/mybook/users" style={{ width: '100%' }}>
                         <Icon as={AiOutlineTeam} mr={'5px'} />
                         Users
                       </Link>

@@ -22,7 +22,7 @@ export default function NotFound() {
         The page you&apos;re looking for does not seem to exist
       </Text>
 
-      <Link to="/facebook-clone">
+      <Link to="/mybook">
         <Button
           colorScheme="teal"
           bgGradient="linear(to-r, teal.400, teal.500, teal.600)"

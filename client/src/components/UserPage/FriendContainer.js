@@ -97,7 +97,7 @@ function FriendCard({ id, firstname, lastname, profilePicUrl }) {
           textDecoration: 'underline',
         }}
       >
-        <Link to={`/facebook-clone/users/${id}`}>
+        <Link to={`/mybook/users/${id}`}>
           {firstname} {lastname}
         </Link>
       </Text>

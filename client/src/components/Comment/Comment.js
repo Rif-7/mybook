@@ -70,7 +70,7 @@ export default function Comment({ comment, signedUser }) {
           fontSize={{ base: 'xs', md: 'md' }}
         >
           <Link
-            to={`/facebook-clone/users/${userId._id}`}
+            to={`/mybook/users/${userId._id}`}
           >{`${userId.firstName} ${userId.lastName}`}</Link>
         </Text>
         <Spacer />

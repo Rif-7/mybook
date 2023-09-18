@@ -72,7 +72,7 @@ export default function PostCard({ post, signedUser }) {
           src={userId.profilePicUrl}
         />
         <Link
-          to={`/facebook-clone/users/${userId._id}`}
+          to={`/mybook/users/${userId._id}`}
         >{`${userId.firstName} ${userId.lastName}`}</Link>
       </HStack>
 
