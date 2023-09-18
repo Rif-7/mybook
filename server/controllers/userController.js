@@ -1,8 +1,6 @@
 const jwt = require("jsonwebtoken");
 const path = require("path");
 const { body, validationResult } = require("express-validator");
-const multer = require("multer");
-const upload = multer({ dest: "../uploads" });
 const { uploadFile } = require("../utils/fileUpload");
 const User = require("../models/user");
 const Friend = require("../models/friend");
@@ -120,7 +118,6 @@ exports.login = [
 ];
 
 exports.updateUserProfile = [
-  upload.single("image"),
   body("firstname", "Firstname is required")
     .trim()
     .isLength({ min: 1 })
@@ -128,7 +125,6 @@ exports.updateUserProfile = [
   body("lastname", "Lastname is required").trim().isLength({ min: 1 }).escape(),
   async (req, res, next) => {
     try {
-      console.log("heeere");
       let errors = validationResult(req);
       if (!errors.isEmpty()) {
         errors = errors.formatWith((error) => error.msg);
@@ -137,16 +133,16 @@ exports.updateUserProfile = [
 
       const user = await User.findById(req.user._id);
 
-      const imageFile = req.file;
+      const imageFile = req.files?.image;
       if (imageFile) {
-        const uploadedFile = await uploadFile(imageFile.path);
+        const uploadedFile = await uploadFile(imageFile.tempFilePath);
         if (!uploadedFile.url) {
           return res
             .status(500)
             .json({ error: "Error occured while uploading the image" });
         }
         user.profilePicUrl = uploadedFile.url;
-        fs.unlinkSync(imageFile.path);
+        fs.unlinkSync(imageFile.tempFilePath);
       }
 
       user.firstName = req.body.firstname;

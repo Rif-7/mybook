@@ -1,5 +1,3 @@
-const multer = require("multer");
-const upload = multer({ dest: "../uploads" });
 const mongoose = require("mongoose");
 const { uploadFile, deleteFile } = require("../utils/fileUpload");
 const Post = require("../models/post");
@@ -9,7 +7,6 @@ const fs = require("fs");
 const { body, validationResult } = require("express-validator");
 
 exports.createPost = [
-  upload.single("image"),
   body("text", "Post text is required").trim().isLength({ min: 1 }).escape(),
   async (req, res, next) => {
     try {
@@ -23,16 +20,16 @@ exports.createPost = [
         text: req.body.text,
       });
 
-      const imageFile = req.file;
+      const imageFile = req.files?.image;
       if (imageFile) {
-        const uploadedFile = await uploadFile(imageFile.path);
+        const uploadedFile = await uploadFile(imageFile.tempFilePath);
         if (!uploadedFile.url) {
           return res
             .status(500)
             .json({ error: "Error occured while uploading the image" });
         }
         post.image = uploadedFile.url;
-        fs.unlinkSync(imageFile.path);
+        fs.unlinkSync(imageFile.tempFilePath);
       }
 
       post = await post.save();
