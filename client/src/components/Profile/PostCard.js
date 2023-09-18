@@ -75,7 +75,7 @@ export default function PostCard({ post, signedUser, handlePosts }) {
     <Flex>
       <Box
         bg={'white'}
-        w="sm"
+        maxW="sm"
         borderWidth="1px"
         rounded="lg"
         shadow="2xl"

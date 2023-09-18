@@ -50,7 +50,6 @@ export default function PostCard({ post, signedUser }) {
     <Box
       bg={useColorModeValue('white', 'gray.800')}
       maxW={'lg'}
-      minW={'380px'}
       borderWidth="1px"
       rounded={'lg'}
       shadow="lg"
