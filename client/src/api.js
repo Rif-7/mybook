@@ -1,4 +1,4 @@
-const apiUrl = 'https://facebookclone.adaptable.app';
+const apiUrl = 'https://facebook-clone-lh0y.onrender.com';
 
 const setUserDetails = async setUser => {
   try {
