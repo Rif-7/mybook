@@ -117,6 +117,28 @@ exports.login = [
   },
 ];
 
+exports.loginAsGuest = async (req, res, next) => {
+  try {
+    const email = process.env.GUEST_EMAIL;
+    const password = process.env.GUEST_PASSWORD;
+    const user = await User.findOne({ email });
+    if (!user) {
+      return res.status(404).json({ error: ["User not found"] });
+    }
+    const isPassword = await comparePassword(password, user.password);
+    if (!isPassword) {
+      return res.status(404).json({ error: ["Incorrect Password"] });
+    }
+    const payload = {
+      sub: user.id,
+    };
+    const token = jwt.sign(payload, process.env.JWT_SECRET);
+    return res.status(200).json({ token });
+  } catch (err) {
+    return next(err);
+  }
+};
+
 exports.updateUserProfile = [
   body("firstname", "Firstname is required")
     .trim()

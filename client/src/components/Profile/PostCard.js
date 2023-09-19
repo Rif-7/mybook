@@ -83,6 +83,7 @@ export default function PostCard({ post, signedUser, handlePosts }) {
       >
         {image ? (
           <Image
+            mx={'auto'}
             maxW={'100%'}
             maxH={'400px'}
             src={image}

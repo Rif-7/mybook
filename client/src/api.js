@@ -47,7 +47,7 @@ const signUp = async (firstname, lastname, email, password) => {
 
 const login = async (email, password) => {
   try {
-    let response = await fetch(apiUrl + '/login', {
+    const response = await fetch(apiUrl + '/login', {
       method: 'POST',
       mode: 'cors',
       headers: {
@@ -59,6 +59,22 @@ const login = async (email, password) => {
       }),
     });
 
+    return await response.json();
+  } catch (err) {
+    console.log(err);
+    return { error: ['An Unexpected Error Occured'] };
+  }
+};
+
+const loginAsGuest = async () => {
+  try {
+    const response = await fetch(`${apiUrl}/login/guest`, {
+      method: 'POST',
+      mode: 'cors',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    });
     return await response.json();
   } catch (err) {
     console.log(err);
@@ -389,6 +405,7 @@ export {
   setUserDetails,
   signUp,
   login,
+  loginAsGuest,
   submitPost,
   getPosts,
   deletePost,

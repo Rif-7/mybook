@@ -19,6 +19,7 @@ router.get(
 );
 router.post("/signup", userController.signup);
 router.post("/login", userController.login);
+router.post("/login/guest", userController.loginAsGuest);
 
 // Post Routes
 router.get("/posts", ensureAuth, postController.getPosts);

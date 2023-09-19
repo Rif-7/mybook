@@ -22,7 +22,8 @@ import { useState } from 'react';
 import { ViewIcon, ViewOffIcon } from '@chakra-ui/icons';
 import { Link } from 'react-router-dom';
 import FacebookButton from './FacebookLoginButton';
-import { login, setUserDetails } from '../../api';
+import { login, loginAsGuest, setUserDetails } from '../../api';
+import GuestLoginButton from './GuestLoginButton';
 
 export default function LoginCard(props) {
   const { setUser } = props;
@@ -39,8 +40,20 @@ export default function LoginCard(props) {
     e.preventDefault();
     setIsLoading(true);
     const res = await login(email, password);
+    setIsLoading(false);
     if (res.error) {
-      setIsLoading(false);
+      return setErrors(res.error);
+    }
+    localStorage.setItem('token', res.token);
+    await setUserDetails(setUser);
+  };
+
+  const onGuestLogin = async e => {
+    e.preventDefault();
+    setIsLoading(true);
+    const res = await loginAsGuest();
+    setIsLoading(false);
+    if (res.error) {
       return setErrors(res.error);
     }
     localStorage.setItem('token', res.token);
@@ -129,7 +142,13 @@ export default function LoginCard(props) {
                   </Link>
                 </Text>
               </Stack>
-              <FacebookButton />
+              <Stack>
+                <GuestLoginButton
+                  onClick={onGuestLogin}
+                  isLoading={isLoading}
+                />
+                <FacebookButton />
+              </Stack>
             </Stack>
           </Box>
         </Stack>

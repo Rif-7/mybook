@@ -7,7 +7,7 @@ import { Link } from 'react-router-dom';
 
 export default function FacebookButton() {
   return (
-    <Link to={apiUrl + "/auth/fb"}>
+    <Link to={apiUrl + '/auth/fb'}>
       <Center p={3}>
         <Button
           w={'full'}
