@@ -33,7 +33,7 @@ passport.use(
     {
       clientID: process.env.FACEBOOK_APP_ID,
       clientSecret: process.env.FACEBOOK_APP_SECRET,
-      callbackURL: "/auth/fb/cb",
+      callbackURL: `${process.env.SERVER_HOST}/auth/fb/cb`,
       profileFields: [
         "id",
         "displayName",
