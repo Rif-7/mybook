@@ -1,4 +1,4 @@
-const apiUrl = 'https://facebook-clone-lh0y.onrender.com';
+const apiUrl = 'https://mybook-dd1h.onrender.com';
 
 const setUserDetails = async setUser => {
   try {

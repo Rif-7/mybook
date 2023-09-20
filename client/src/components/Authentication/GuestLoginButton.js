@@ -1,6 +1,7 @@
 'use client';
 
 import { Button, Center, Text } from '@chakra-ui/react';
+import { FaUser } from 'react-icons/fa';
 
 export default function GuestLoginButton({ onClick, isLoading }) {
   return (
@@ -11,6 +12,7 @@ export default function GuestLoginButton({ onClick, isLoading }) {
         colorScheme={'blue'}
         isLoading={isLoading}
         onClick={onClick}
+        leftIcon={<FaUser />}
       >
         <Center>
           <Text>Login as guest</Text>
