@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { ChakraProvider } from '@chakra-ui/react';
-import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
+import { Routes, Route, Navigate, HashRouter } from 'react-router-dom';
 
 import NavOutlet from './components/Navbar/Navbar';
 import SignupCard from './components/Authentication/SignUp';
@@ -25,7 +25,7 @@ function App() {
 
   return (
     <ChakraProvider>
-      <BrowserRouter>
+      <HashRouter basename="/mybook">
         <Routes>
           {user.firstName ? (
             <>
@@ -77,7 +77,7 @@ function App() {
           />
           <Route path="*" element={<NotFound />} />
         </Routes>
-      </BrowserRouter>
+      </HashRouter>
     </ChakraProvider>
   );
 }
