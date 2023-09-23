@@ -73,6 +73,7 @@ function App() {
             path="/mybook/token/:tokenId"
             element={<FacebookToken user={user} setUser={setUser} />}
           />
+          <Route path="/" element={<Navigate replace to="/mybook" />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
       </HashRouter>
