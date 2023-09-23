@@ -16,7 +16,7 @@ exports.sendJwtToken = (req, res, next) => {
   }
   const payload = { sub: req.user.id };
   const token = jwt.sign(payload, process.env.JWT_SECRET);
-  return res.redirect(`${process.env.CLIENT_HOST}/token/${token}`);
+  return res.redirect(`${process.env.CLIENT_HOST}/#/mybook/token/${token}`);
 };
 
 exports.signup = [

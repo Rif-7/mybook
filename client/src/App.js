@@ -25,7 +25,7 @@ function App() {
 
   return (
     <ChakraProvider>
-      <HashRouter basename="/mybook">
+      <HashRouter>
         <Routes>
           {user.firstName ? (
             <>
@@ -35,15 +35,14 @@ function App() {
               >
                 <Route index element={<HomePage user={user} />} />
                 <Route
-                  path="profile"
+                  path="/mybook/profile"
                   element={<UserProfile user={user} setUser={setUser} />}
                 />
-                <Route path="users" element={<UserList />} />
+                <Route path="/mybook/users" element={<UserList />} />
                 <Route
-                  path="users/:userId"
+                  path="/mybook/users/:userId"
                   element={<UserPage user={user} />}
                 />
-
                 <Route
                   path="/mybook/login"
                   element={<Navigate replace to="/mybook" />}
@@ -70,7 +69,6 @@ function App() {
               />
             </>
           )}
-          <Route path="/" element={<Navigate replace to="/mybook" />} />
           <Route
             path="/mybook/token/:tokenId"
             element={<FacebookToken user={user} setUser={setUser} />}

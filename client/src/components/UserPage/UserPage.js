@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 import { Navigate, useParams } from 'react-router-dom';
 import {
@@ -48,8 +48,9 @@ export default function UserPage({ user }) {
     setIsLoading(false);
   };
 
-  useState(() => {
+  useEffect(() => {
     handleUserData();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [userId]);
 
   const handleFriendAction = async action => {
