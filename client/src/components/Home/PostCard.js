@@ -75,10 +75,11 @@ export default function PostCard({ post, signedUser }) {
           to={`/mybook/users/${userId._id}`}
         >{`${userId.firstName} ${userId.lastName}`}</Link>
       </HStack>
-
       {image ? (
         <Image
+          mx={'auto'}
           maxW={'100%'}
+          maxH={'lg'}
           src={image}
           fallback={
             <Center w="100%" h="250px" bgColor="gray.100">

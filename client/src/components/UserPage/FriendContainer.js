@@ -26,7 +26,7 @@ export default function FriendContainer({
   useEffect(() => {
     handleFriends();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [isFriends]);
+  }, [isFriends, userId, signedUser]);
 
   const handleFriends = async () => {
     const res = await getUserFriends(userId);
