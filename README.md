@@ -2,7 +2,7 @@
 
 MyBook is a full-stack web application that replicates the core functionality of Facebook. Users can sign in using their Facebook credentials, send friend requests, create posts, like posts, comment on posts, upload profile photos, and more. This project is built using JavaScript, Node.js, Express.js, MongoDB with Mongoose, and React.js with Chakra UI.
 
-### Live Preview: [https://rif-7.github.io/mybook](https://rif-7.github.io/mybook)
+### Live Preview: [https://mybook-mocha.vercel.app/](https://mybook-mocha.vercel.app/) or [https://rif-7.github.io/mybook](https://rif-7.github.io/mybook) 
 The site may not fail to connect to the backend server initially since it is hosted on a free plan.
     
 
