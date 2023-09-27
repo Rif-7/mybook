@@ -17,8 +17,7 @@ import { deletePost, toggleLike } from '../../api';
 import CommentContainer from '../Comment/CommentContainer';
 
 export default function PostCard({ post, signedUser, handlePosts }) {
-  const { _id, text, image, timestamp_formatted, likes } = post;
-
+  const { _id, userId, text, image, timestamp_formatted, likes } = post;
   const [showComments, setShowComments] = useState(false);
   const [showFullText, setShowFullText] = useState(false);
   const [isLiked, setIsLiked] = useState(likes.includes(signedUser));
@@ -103,14 +102,16 @@ export default function PostCard({ post, signedUser, handlePosts }) {
               {timestamp_formatted}
             </Badge>
             <Spacer />
-            <Button
-              size={'xs'}
-              colorScheme="red"
-              isLoading={isDeleteLoading}
-              onClick={handleDelete}
-            >
-              Delete
-            </Button>
+            {signedUser === userId ? (
+              <Button
+                size={'xs'}
+                colorScheme="red"
+                isLoading={isDeleteLoading}
+                onClick={handleDelete}
+              >
+                Delete
+              </Button>
+            ) : null}
           </Box>
           <Flex mt="1" justifyContent="space-between" alignContent="center">
             <Box fontSize="2xl" fontWeight="semibold" as="h4">
