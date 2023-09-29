@@ -3,7 +3,7 @@ import { useEffect, useState } from 'react';
 import { getUserPosts } from '../../api';
 import PostCard from '../Profile/PostCard';
 
-export default function PostContainer({ userId, setPostCount }) {
+export default function PostContainer({ userId, setPostCount, signedUser }) {
   const [posts, setPosts] = useState([]);
   const [error, setError] = useState(null);
   useEffect(() => {
@@ -34,7 +34,7 @@ export default function PostContainer({ userId, setPostCount }) {
   return (
     <Flex gap={12} align={'flex-start'} justify={'center'} flexWrap={'wrap'}>
       {posts.map((post, index) => (
-        <PostCard key={index} post={post} />
+        <PostCard key={index} post={post} signedUser={signedUser} />
       ))}
     </Flex>
   );

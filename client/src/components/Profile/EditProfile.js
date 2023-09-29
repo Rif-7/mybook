@@ -16,7 +16,7 @@ import {
   ModalOverlay,
   useToast,
 } from '@chakra-ui/react';
-import { useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { setUserDetails, updateUserProfile } from '../../api';
 
 export default function EditProfile({ isOpen, onClose, user, setUser }) {
@@ -28,6 +28,12 @@ export default function EditProfile({ isOpen, onClose, user, setUser }) {
   const [lastName, setLastName] = useState(user.lastName);
   const [error, setError] = useState(null);
   const toast = useToast();
+
+  useEffect(() => {
+    setSelectedImage(user.profilePicUrl);
+    setFirstName(user.firstName);
+    setLastName(user.lastName);
+  }, [user]);
 
   const handleImageChange = e => {
     const image = e.target.files[0];
@@ -92,7 +98,7 @@ export default function EditProfile({ isOpen, onClose, user, setUser }) {
       duration: 3000,
       isClosable: true,
     });
-    setUserDetails(setUser);
+    await setUserDetails(setUser);
     customOnClose();
   };
 

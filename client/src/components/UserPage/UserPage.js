@@ -161,7 +161,11 @@ export default function UserPage({ user }) {
         />
         <TabPanels>
           <TabPanel>
-            <PostContainer userId={userId} setPostCount={setPostCount} />
+            <PostContainer
+              userId={userId}
+              signedUser={user.id}
+              setPostCount={setPostCount}
+            />
           </TabPanel>
           <TabPanel>
             <FriendContainer
