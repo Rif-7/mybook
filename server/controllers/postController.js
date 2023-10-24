@@ -7,7 +7,7 @@ const fs = require("fs");
 const { body, validationResult } = require("express-validator");
 
 exports.createPost = [
-  body("text", "Post text is required").trim().isLength({ min: 1 }).escape(),
+  body("text", "Post text is required").isString().trim().isLength({ min: 1 }),
   async (req, res, next) => {
     try {
       let errors = validationResult(req);

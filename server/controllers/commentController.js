@@ -4,7 +4,10 @@ const mongoose = require("mongoose");
 const { body, validationResult } = require("express-validator");
 
 exports.createComment = [
-  body("text", "Comment text is required").trim().isLength({ min: 1 }),
+  body("text", "Comment text is required")
+    .isString()
+    .trim()
+    .isLength({ min: 1 }),
   async (req, res, next) => {
     try {
       let errors = validationResult(req);
