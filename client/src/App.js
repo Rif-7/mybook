@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { ChakraProvider } from '@chakra-ui/react';
+import { ChakraProvider, useToast } from '@chakra-ui/react';
 import { Routes, Route, Navigate, HashRouter } from 'react-router-dom';
 
 import NavOutlet from './components/Navbar/Navbar';
@@ -15,8 +15,20 @@ import UserPage from './components/UserPage/UserPage';
 
 function App() {
   const [user, setUser] = useState({});
+  const toast = useToast();
+
   useEffect(() => {
+    toast({
+      title: 'Waking Up Server',
+      description:
+        'It might take a little while to process your initial request, but subsequent requests will be fine',
+      status: 'info',
+      duration: '10000',
+      isClosable: true,
+      position: 'top',
+    });
     setUserDetails(setUser);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
   const logout = () => {
     localStorage.removeItem('token');
