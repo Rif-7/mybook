@@ -20,11 +20,22 @@ exports.sendJwtToken = (req, res, next) => {
 };
 
 exports.signup = [
-  body("firstname", "Firstname is required")
+  body("firstname")
+    .isString()
+    .withMessage("Invalid format")
     .trim()
-    .isLength({ min: 1 })
-    .escape(),
-  body("lastname", "Lastname is required").trim().isLength({ min: 1 }).escape(),
+    .isLength({ min: 2, max: 20 })
+    .withMessage("Firstname should be between 2-20 characters")
+    .isAlphanumeric()
+    .withMessage("Firstname should only contain alphanumeric characters"),
+  body("lastname")
+    .isString()
+    .withMessage("Invalid format")
+    .trim()
+    .isLength({ min: 2, max: 20 })
+    .withMessage("Lastname should be between 2-20 characters")
+    .isAlphanumeric()
+    .withMessage("Lastname should only contain alphanumeric characters"),
   body("email")
     .trim()
     .isEmail()
@@ -36,11 +47,12 @@ exports.signup = [
         throw new Error("Email already in use");
       }
     }),
-  body("password", "Password should be atleast 6 characters")
+  body("password")
+    .isString()
+    .withMessage("Invalid format")
     .trim()
     .isLength({ min: 6 })
-    .escape(),
-
+    .withMessage("Password should be atleast 6 characters"),
   async (req, res, next) => {
     try {
       let errors = validationResult(req);
@@ -88,10 +100,11 @@ exports.login = [
       req.user = user;
     }),
   body("password")
+    .isString()
+    .withMessage("Invalid format")
     .trim()
     .isLength({ min: 6 })
     .withMessage("Password should be atleast 6 characters")
-    .escape()
     .custom(async (password, { req }) => {
       const isPassword = await comparePassword(password, req.user.password);
       if (!isPassword) {
@@ -140,11 +153,22 @@ exports.loginAsGuest = async (req, res, next) => {
 };
 
 exports.updateUserProfile = [
-  body("firstname", "Firstname is required")
+  body("firstname")
+    .isString()
+    .withMessage("Invalid format")
     .trim()
-    .isLength({ min: 1 })
-    .escape(),
-  body("lastname", "Lastname is required").trim().isLength({ min: 1 }).escape(),
+    .isLength({ min: 2, max: 20 })
+    .withMessage("Firstname should be between 2-20 characters")
+    .isAlphanumeric()
+    .withMessage("Firstname should only contain alphanumeric characters"),
+  body("lastname")
+    .isString()
+    .withMessage("Invalid format")
+    .trim()
+    .isLength({ min: 2, max: 20 })
+    .withMessage("Lastname should be between 2-20 characters")
+    .isAlphanumeric()
+    .withMessage("Lastname should only contain alphanumeric characters"),
   async (req, res, next) => {
     try {
       let errors = validationResult(req);

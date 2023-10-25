@@ -1,4 +1,4 @@
-const apiUrl = 'https://mybook-dd1h.onrender.com';
+const apiUrl = 'http://localhost:4000';
 
 const setUserDetails = async setUser => {
   try {

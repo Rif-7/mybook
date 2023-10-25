@@ -7,7 +7,12 @@ const fs = require("fs");
 const { body, validationResult } = require("express-validator");
 
 exports.createPost = [
-  body("text", "Post text is required").isString().trim().isLength({ min: 1 }),
+  body("text")
+    .isString()
+    .withMessage("Invalid format")
+    .trim()
+    .isLength({ min: 2, max: 100 })
+    .withMessage("Post caption should be between 2-100 characters"),
   async (req, res, next) => {
     try {
       let errors = validationResult(req);

@@ -4,8 +4,8 @@ const Friend = require("./friend");
 const Schema = mongoose.Schema;
 
 const UserSchema = new Schema({
-  firstName: { type: String, required: true },
-  lastName: { type: String, required: true },
+  firstName: { type: String, required: true, minLength: 2, maxLength: 20 },
+  lastName: { type: String, required: true, minLength: 2, maxLength: 20 },
   email: {
     type: String,
     required: function () {

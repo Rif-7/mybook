@@ -4,10 +4,12 @@ const mongoose = require("mongoose");
 const { body, validationResult } = require("express-validator");
 
 exports.createComment = [
-  body("text", "Comment text is required")
+  body("text")
     .isString()
+    .withMessage("Invalid format")
     .trim()
-    .isLength({ min: 1 }),
+    .isLength({ min: 1, max: 100 })
+    .withMessage("Comment should be between 1-100 characters"),
   async (req, res, next) => {
     try {
       let errors = validationResult(req);
