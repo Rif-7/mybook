@@ -7,7 +7,7 @@ The site may fail or take a while to connect to the backend server initially sin
     
 
 ## Table of Contents
-- [Screenshots] (#screenshots)
+- [Screenshots](#screenshots)
 - [Introduction](#introduction)
 - [Features](#features)
 - [Getting Started](#getting-started)
