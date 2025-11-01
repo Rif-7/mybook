@@ -7,7 +7,7 @@ The site may fail or take a while to connect to the backend server initially sin
     
 
 ## Table of Contents
-
+- [Screenshots] (#screenshots)
 - [Introduction](#introduction)
 - [Features](#features)
 - [Getting Started](#getting-started)
@@ -17,6 +17,22 @@ The site may fail or take a while to connect to the backend server initially sin
 - [Project Structure](#project-structure)
 - [Technologies Used](#technologies-used)
 - [License](#license)
+
+
+## Screenshots
+
+### Login Page
+![Login Page](./screenshots/login.png)
+
+### Profile Page
+![Profile Page](./screenshots/profile.png)
+
+### Home Page
+![Home Page](./screenshots/home_page.png)
+
+### Friends List
+![Friends List](./screenshots/friends.png)
+
 
 ## Introduction
 
